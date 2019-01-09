@@ -6,6 +6,8 @@
     <color name="colorBlue">#3783B7</color>
     <color name="colorText">#13486C</color>
     <color name="colorCard">#6F80CA</color>
-
+    <color name="colorInput">#08BCFC</color>
+    <color name="colorValidation">#009675</color>
+    <color name="colorShadow">#5A6EE1</color>
 
 </resources>

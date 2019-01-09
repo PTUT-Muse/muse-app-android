@@ -5,4 +5,9 @@
     <string name="tri_croissant">Croissant</string>
     <string name="capture_etat">Etat de la capture</string>
     <string name="ic_settings">Paramètres</string>
+    <string name="new_capture_title_bar">Nouvelle capture</string>
+    <string name="new_capture_details">Détails</string>
+    <string name="new_capture_capture">Capture</string>
+    <string name="new_capture_etat">Etat</string>
+    <string name="new_capture_suivant">Suivant</string>
 </resources>
