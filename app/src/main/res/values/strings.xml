@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">muse-app-android</string>
+    <string name="logo_muse">MUSE</string>
+    <string name="logo_analyzer">ANALYZER</string>
+    <string name="tri_croissant">Croissant</string>
+    <string name="capture_etat">Etat de la capture</string>
+    <string name="ic_settings">Paramètres</string>
 </resources>

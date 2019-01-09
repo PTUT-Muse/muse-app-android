@@ -1,15 +1,71 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
+import com.example.lpiem.muse_app_android.data.model.Capture;
+import com.example.lpiem.muse_app_android.presentation.presenter.CaptureListPresenter;
+import com.example.lpiem.muse_app_android.presentation.ui.adapter.CaptureListAdapter;
+import com.example.lpiem.muse_app_android.presentation.ui.view.CaptureListView;
 
-public class CaptureListActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class CaptureListActivity extends AppCompatActivity implements CaptureListView {
+    //private CaptureListPresenter presenter = new CaptureListPresenter(this);
+
+    private RecyclerView captureRecyclerView;
+    private CaptureListAdapter captureListAdapter;
+
+    private List<Capture> captureList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_list);
+
+        captureRecyclerView = findViewById(R.id.capture_list_rv);
+
+        captureList.add(new Capture());
+        captureList.add(new Capture());
+        captureList.add(new Capture());
+        captureList.add(new Capture());
+        captureList.add(new Capture());
+        captureList.add(new Capture());
+
+        captureRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
+        captureListAdapter = new CaptureListAdapter(captureList, new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(CaptureListActivity.this, CaptureDetailActivity.class);
+//                intent.putExtra("id", captureList.get(position).getId());
+//                startActivity(intent);
+            }
+        });
+
+        captureRecyclerView.setAdapter(captureListAdapter);
+        //presenter.getAllCaptures();
+
+    }
+
+    @Override
+    public void updateList(List<Capture> listCapture) {
+        listCapture.clear();
+        listCapture = listCapture;
+        captureListAdapter.updateList(listCapture);
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }
