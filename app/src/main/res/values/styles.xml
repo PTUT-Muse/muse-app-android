@@ -12,4 +12,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@color/underlineInput</item>
+        <item name="colorControlActivated">@color/underlineInputSelect</item>
+    </style>
+
+
 </resources>

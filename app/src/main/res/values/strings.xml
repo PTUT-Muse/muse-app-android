@@ -10,4 +10,6 @@
     <string name="new_capture_capture">Capture</string>
     <string name="new_capture_etat">Etat</string>
     <string name="new_capture_suivant">Suivant</string>
+    <string name="CreateCaptureDetailsPlaceholderTitle">Nom de la capture</string>
+    <string name="CreateCaptureDetailsPlaceholderDescription">Description</string>
 </resources>
