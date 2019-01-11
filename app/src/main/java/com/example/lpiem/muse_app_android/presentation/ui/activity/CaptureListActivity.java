@@ -35,7 +35,7 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
         setContentView(R.layout.activity_capture_list);
 
         captureRecyclerView = findViewById(R.id.capture_list_rv);
-        FloatingActionButton fab = findViewById(R.id.fab_addCapture);
+        FloatingActionButton fabAddCapture = findViewById(R.id.fab_addCapture);
 
         captureList.add(new Capture());
         captureList.add(new Capture());
@@ -47,18 +47,14 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
         captureRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
 
 
-        // ON CLICK
-
         captureListAdapter = new CaptureListAdapter(captureList, new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(CaptureListActivity.this, CaptureDetailActivity.class);
-//                intent.putExtra("id", captureList.get(position).getId());
-//                startActivity(intent);
+
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        fabAddCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CaptureListActivity.this, NewCaptureDetailsActivity.class);
@@ -73,9 +69,9 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
 
     @Override
     public void updateList(List<Capture> listCapture) {
-        listCapture.clear();
-        listCapture = listCapture;
-        captureListAdapter.updateList(listCapture);
+        captureList.clear();
+        captureList = listCapture;
+        captureListAdapter.updateList(captureList);
     }
 
     @Override

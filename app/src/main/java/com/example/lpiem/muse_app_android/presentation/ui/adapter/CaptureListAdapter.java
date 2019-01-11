@@ -33,12 +33,7 @@ public class CaptureListAdapter extends RecyclerView.Adapter<CaptureListViewHold
 
     @Override
     public void onBindViewHolder(@NonNull CaptureListViewHolder holder, final int position) {
-//        ComicDataWrapper comicDataWrapper = new ComicDataWrapper(captureList.get(position));
-//        Capture capture = comicDataWrapper.getComic();
-//        Picasso.get().load(comic.getImage()).into(holder.captureEtat);
         holder.captureTitre.setText("Test");
-//        holder.captureHeure.setText(comicDataWrapper.parseTimeStamp());
-//        holder.captureDate.setText(comic.getPageCount() + " pages");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
