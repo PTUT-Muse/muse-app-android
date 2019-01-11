@@ -2,6 +2,7 @@ package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,8 +91,10 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
                 break;
             case R.id.btnSuivant:
             case R.id.btnCapture:
-                // Intent intent = new Intent(NewCaptureDetailsActivity.this, NewCaptureActivity.class);
-                // startActivity(intent);
+                Intent intent = new Intent(NewCaptureDetailsActivity.this, NewCaptureActivity.class);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+
                 break;
             default:
                 break;
