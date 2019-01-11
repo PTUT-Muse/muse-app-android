@@ -29,19 +29,20 @@
         android:id="@+id/btnDetails"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="232dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="390dp"
-        android:layout_marginBottom="404dp"
+        android:layout_marginBottom="8dp"
         android:alpha="0.5"
         android:text="@string/new_capture_details"
         android:textColor="@color/colorAccent"
         android:textSize="35dp"
-        app:layout_constraintBottom_toTopOf="@+id/monitor1"
+        app:layout_constraintBottom_toTopOf="@+id/graph_capture"
         app:layout_constraintEnd_toStartOf="@+id/btnCapture"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -166,13 +167,14 @@
         android:id="@+id/monitor1"
         android:layout_width="0dp"
         android:layout_height="140dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="102dp"
         android:layout_marginBottom="97dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/monitor2"
         app:layout_constraintStart_toEndOf="@+id/btnLeftArrow"
-        app:layout_constraintTop_toBottomOf="@+id/btnDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/graph_capture" />
 
     <Button
         android:id="@+id/monitor2"
@@ -183,7 +185,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/monitor1"
         app:layout_constraintEnd_toStartOf="@+id/btnRightArrow"
         app:layout_constraintStart_toEndOf="@+id/monitor1"
-        app:layout_constraintTop_toTopOf="@+id/monitor1" />
+        app:layout_constraintTop_toTopOf="@+id/monitor1"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/txtPagination"

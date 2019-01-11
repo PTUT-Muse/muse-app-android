@@ -50,7 +50,8 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
         captureListAdapter = new CaptureListAdapter(captureList, new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent = new Intent(CaptureListActivity.this, DetailCaptureActivity.class);
+                startActivity(intent);
             }
         });
 
