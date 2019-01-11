@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="urn:oasis:names:tc:xliff:document:1.2">
+    <color name="colorPrimary">#50A1D9</color>
+    <color name="colorPrimaryDark">#3E50B4</color>
+    <color name="colorAccent">#ffffff</color>
+    <color name="colorBlue">#3783B7</color>
+    <color name="colorText">#13486C</color>
+    <color name="colorCard">#6F80CA</color>
+    <color name="colorValidation">#009675</color>
+    <color name="colorShadow">#5A6EE1</color>
+
+    <color name="underlineInput">#6d00ac</color>
+    <color name="underlineInputSelect">#08BCFC</color>
+    <color name="colorPlaceHolderInput">#64ffffff</color>
+
+
 </resources>
+
