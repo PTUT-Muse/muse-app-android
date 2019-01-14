@@ -93,7 +93,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnModifier"
+        android:id="@+id/btnModify"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="155dp"
         android:layout_height="68dp"

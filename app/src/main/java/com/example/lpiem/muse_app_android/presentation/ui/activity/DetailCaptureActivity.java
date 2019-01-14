@@ -13,7 +13,7 @@ import android.widget.Button;
 import com.example.lpiem.muse_app_android.R;
 
 public class DetailCaptureActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btnModifier;
+    Button btnModify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +22,8 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
         this.setTitle("Titre de la capture");
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        btnModifier = findViewById(R.id.btnModifier);
-        btnModifier.setOnClickListener(this);
+        btnModify = findViewById(R.id.btnModify);
+        btnModify.setOnClickListener(this);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -35,30 +35,34 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
             case R.id.menu_settings:
                 // TODO : lancer intent settings
                 return true;
-            case R.id.menu_exporter:
+            case R.id.menu_export:
                 // TODO export
                 return true;
-            case R.id.menu_supprimer:
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
-                        .setTitle("Supprimer la capture ?")
-                        .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                // TODO : supprimer capture
-                                DetailCaptureActivity.this.finish();
-                            }
-                        })
-                        .setNegativeButton("Non",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-                alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorBlue));
-                alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+            case R.id.menu_delete:
+                confirmDeleteDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void confirmDeleteDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
+                .setTitle("Supprimer la capture ?")
+                .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // TODO : supprimer capture
+                        DetailCaptureActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("Non",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
     }
 
     @Override
@@ -71,7 +75,7 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.btnModifier:
+            case R.id.btnModify:
                 finish();
                 break;
             default:
