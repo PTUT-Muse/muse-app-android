@@ -20,7 +20,6 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="19dp"
-        android:text="CAPTURE 1"
         android:textColor="@color/colorAccent"
         android:textSize="45sp"
         app:layout_constraintBottom_toTopOf="@+id/bordureBlanche"
@@ -38,11 +37,10 @@
         app:layout_constraintTop_toBottomOf="@+id/txtCapture">
 
         <TextView
-            android:id="@+id/txtHeure"
+            android:id="@+id/txtTemps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="15:16"
             android:textColor="@color/colorCard"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -55,7 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="20/10/2019"
             android:textColor="@color/colorCard"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"

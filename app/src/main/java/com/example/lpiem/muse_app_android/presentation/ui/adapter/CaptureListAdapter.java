@@ -1,5 +1,6 @@
 package com.example.lpiem.muse_app_android.presentation.ui.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,11 @@ public class CaptureListAdapter extends RecyclerView.Adapter<CaptureListViewHold
 
     @Override
     public void onBindViewHolder(@NonNull CaptureListViewHolder holder, final int position) {
-        holder.captureTitre.setText("Test");
+        holder.captureTitre.setText(captureList.get(position).getTitre());
+        holder.captureDate.setText(captureList.get(position).getDate());
+        holder.captureTemps.setText(captureList.get(position).getTemps());
+        Log.d("mlk", "id etat : "+captureList.get(position).getEtat());
+        holder.captureEtat.setImageResource(R.mipmap.etonne);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
