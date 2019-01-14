@@ -58,7 +58,7 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
         fabAddCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CaptureListActivity.this, NewCaptureDetailsActivity.class);
+                Intent intent = new Intent(CaptureListActivity.this, ConnectDeviceActivity.class);
                 startActivity(intent);
             }
         });
