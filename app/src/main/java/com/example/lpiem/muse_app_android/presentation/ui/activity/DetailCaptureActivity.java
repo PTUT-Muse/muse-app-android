@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,10 +20,11 @@ import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.example.lpiem.muse_app_android.data.model.Capture;
 
 public class DetailCaptureActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btnModifier;
-    TextView editNom;
+    Button btnModify;
+    ImageView imgState;
+    TextView editName;
     TextView editDescription;
-    TextView editTemps;
+    TextView editTime;
     SQLiteDataBase db;
     Capture capture;
 
@@ -38,17 +40,17 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
         this.setTitle(capture.getTitre());
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        btnModifier = findViewById(R.id.btnModifier);
-        btnModifier.setOnClickListener(this);
-        editNom = findViewById(R.id.txtEditNom);
+        btnModify = findViewById(R.id.btnModify);
+        btnModify.setOnClickListener(this);
+        editName = findViewById(R.id.txtEditName);
         editDescription = findViewById(R.id.txtEditDescription);
-        editTemps = findViewById(R.id.txtChrono);
+        editTime = findViewById(R.id.txtChrono);
+        imgState = findViewById(R.id.imgState);
 
-
-        editNom.setText(capture.getTitre());
+        editName.setText(capture.getTitre());
         editDescription.setText(capture.getDescription());
-        editTemps.setText(capture.getTemps());
-        // TODO : set Imageview Etat
+        editTime.setText(capture.getTemps());
+        setStateImage(capture.getEtat());
     }
 
     private void getCapture(){
@@ -79,31 +81,35 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
             case R.id.menu_settings:
                 // TODO : lancer intent settings
                 return true;
-            case R.id.menu_exporter:
+            case R.id.menu_export:
                 // TODO export
                 return true;
-            case R.id.menu_supprimer:
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
-                        .setTitle("Supprimer la capture ?")
-                        .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                db.deleteCapture(capture.getId());
-                                Toast.makeText(DetailCaptureActivity.this, "Capture supprimée", Toast.LENGTH_LONG).show();
-                                DetailCaptureActivity.this.finish();
-                            }
-                        })
-                        .setNegativeButton("Non",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-                alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorBlue));
-                alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+            case R.id.menu_delete:
+                confirmDeleteDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void confirmDeleteDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
+                .setTitle("Supprimer la capture ?")
+                .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        db.deleteCapture(capture.getId());
+                        Toast.makeText(DetailCaptureActivity.this, "Capture supprimée", Toast.LENGTH_LONG).show();
+                        DetailCaptureActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("Non",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
     }
 
     @Override
@@ -116,9 +122,8 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.btnModifier:
-                //updateCapture
-                boolean isModified = db.updateCapture(capture.getId(), editNom.getText().toString(), editDescription.getText().toString());
+            case R.id.btnModify:
+                boolean isModified = db.updateCapture(capture.getId(), editName.getText().toString(), editDescription.getText().toString());
 
                 if (isModified == true) {
                     Toast.makeText(DetailCaptureActivity.this, "Capture modifiée", Toast.LENGTH_LONG).show();
@@ -126,9 +131,32 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
                 } else {
                     Toast.makeText(DetailCaptureActivity.this, "Erreur à la modification de la capture", Toast.LENGTH_LONG).show();
                 }
-
                 break;
             default:
+                break;
+        }
+
+    }
+
+    private void setStateImage(int stateId){
+        switch (stateId) {
+            case 0:
+                imgState.setImageResource(R.mipmap.content);
+                break;
+            case 1:
+                imgState.setImageResource(R.mipmap.colere);
+                break;
+            case 2:
+                imgState.setImageResource(R.mipmap.etonne);
+                break;
+            case 3:
+                imgState.setImageResource(R.mipmap.move);
+                break;
+            case 4:
+                imgState.setImageResource(R.mipmap.neutre);
+                break;
+            case 5:
+                imgState.setImageResource(R.mipmap.triste);
                 break;
         }
 

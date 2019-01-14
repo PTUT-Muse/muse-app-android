@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,7 +85,8 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
             case R.id.fab_addCapture:
                 Bundle extras = getIntent().getExtras();
                 String currentDate = DateFormat.getDateInstance().format(new Date());
-                boolean isInserted = db.insertData(extras.getString("nom"), extras.getString("description"), currentDate, "04:25", extras.getInt("etat"),"donnees");
+                boolean isInserted = db.insertData(extras.getString("nom"), extras.getString("description"), currentDate, "04:25", extras.getInt("idEtat"),"donnees");
+                Log.d("mlk", "etat passé : "+extras.getInt("idEtat"));
                 if (isInserted == true) {
                     Toast.makeText(NewCaptureActivity.this, "Capture ajoutée", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(NewCaptureActivity.this, CaptureListActivity.class);

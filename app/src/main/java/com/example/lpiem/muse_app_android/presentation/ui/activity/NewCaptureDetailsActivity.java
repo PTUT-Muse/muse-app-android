@@ -16,17 +16,18 @@ import android.widget.Toast;
 import com.example.lpiem.muse_app_android.R;
 
 public class NewCaptureDetailsActivity extends AppCompatActivity implements View.OnClickListener {
-    ImageView imgEtatContent;
-    ImageView imgEtatColere;
-    ImageView imgEtatEtonne;
-    ImageView imgEtatMove;
-    ImageView imgEtatNeutre;
-    ImageView imgEtatTriste;
-    Button btnSuivant;
+    ImageView imgStateHappy;
+    ImageView imgStateAngry;
+    ImageView imgStateSurprise;
+    ImageView imgStateMove;
+    ImageView imgStateNeutral;
+    ImageView imgStateSad;
+    Button btnNext;
     Button btnCapture;
-    EditText editNom;
+    EditText editName;
     EditText editDescription;
     private ImageView currentStateSelected = null;
+    private int stateSelectedId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,25 +36,25 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
         this.setTitle(R.string.new_capture_title_bar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        editNom = findViewById(R.id.txtEditNom);
+        btnNext = findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(this);
+        editName = findViewById(R.id.txtEditName);
         editDescription = findViewById(R.id.txtEditDescription);
-
-        btnSuivant = findViewById(R.id.btnSuivant);
-        btnSuivant.setOnClickListener(this);
         btnCapture = findViewById(R.id.btnCapture);
         btnCapture.setOnClickListener(this);
-        imgEtatContent = findViewById(R.id.imgEtatContent);
-        imgEtatContent.setOnClickListener(this);
-        imgEtatColere = findViewById(R.id.imgEtatColere);
-        imgEtatColere.setOnClickListener(this);
-        imgEtatEtonne = findViewById(R.id.imgEtatEtonne);
-        imgEtatEtonne.setOnClickListener(this);
-        imgEtatMove = findViewById(R.id.imgEtatMove);
-        imgEtatMove.setOnClickListener(this);
-        imgEtatNeutre = findViewById(R.id.imgEtatNeutre);
-        imgEtatNeutre.setOnClickListener(this);
-        imgEtatTriste = findViewById(R.id.imgEtatTriste);
-        imgEtatTriste.setOnClickListener(this);
+        imgStateHappy = findViewById(R.id.imgStateHappy);
+        imgStateHappy.setOnClickListener(this);
+        imgStateAngry = findViewById(R.id.imgStateAngry);
+        imgStateAngry.setOnClickListener(this);
+        imgStateSurprise = findViewById(R.id.imgStateSurprise);
+        imgStateSurprise.setOnClickListener(this);
+        imgStateMove = findViewById(R.id.imgStateMove);
+        imgStateMove.setOnClickListener(this);
+        imgStateNeutral = findViewById(R.id.imgStateNeutral);
+        imgStateNeutral.setOnClickListener(this);
+        imgStateSad = findViewById(R.id.imgStateSad);
+        imgStateSad.setOnClickListener(this);
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -78,37 +79,39 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.imgEtatContent:
-                setState(imgEtatContent);
+            case R.id.imgStateHappy:
+                stateSelectedId = 0;
+                setState(imgStateHappy);
                 break;
-            case R.id.imgEtatColere:
-                setState(imgEtatColere);
+            case R.id.imgStateAngry:
+                stateSelectedId = 1;
+                setState(imgStateAngry);
                 break;
-            case R.id.imgEtatEtonne:
-                setState(imgEtatEtonne);
+            case R.id.imgStateSurprise:
+                stateSelectedId = 2;
+                setState(imgStateSurprise);
                 break;
-            case R.id.imgEtatMove:
-                setState(imgEtatMove);
+            case R.id.imgStateMove:
+                stateSelectedId = 3;
+                setState(imgStateMove);
                 break;
-            case R.id.imgEtatNeutre:
-                setState(imgEtatNeutre);
+            case R.id.imgStateNeutral:
+                stateSelectedId = 4;
+                setState(imgStateNeutral);
                 break;
-            case R.id.imgEtatTriste:
-                setState(imgEtatTriste);
+            case R.id.imgStateSad:
+                stateSelectedId = 5;
+                setState(imgStateSad);
                 break;
-            case R.id.btnSuivant:
+            case R.id.btnNext:
             case R.id.btnCapture:
                 if (isInputNull()) {
                     Toast.makeText(NewCaptureDetailsActivity.this, "Tous les champs ne sont pas remplis", Toast.LENGTH_LONG).show();
                 } else {
                     Intent intent = new Intent(NewCaptureDetailsActivity.this, NewCaptureActivity.class);
-                    intent.putExtra("nom", editNom.getText().toString());
+                    intent.putExtra("nom", editName.getText().toString());
                     intent.putExtra("description", editDescription.getText().toString());
-                    intent.putExtra("idEtat", getResources().getResourceName(currentStateSelected.getId()));
-                    //intent.putExtra("idEtat", getResources().getDrawable(currentStateSelected.getId()));
-                    //  currentStateSelected.getId());
-                    // varimg.setImageDrawable(id);
-
+                    intent.putExtra("idEtat", stateSelectedId);
                     startActivity(intent);
                     overridePendingTransition(0, 0);
                 }
@@ -127,7 +130,7 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
     }
 
     public boolean isInputNull(){
-        if (TextUtils.isEmpty(editNom.getText().toString()) || TextUtils.isEmpty(editDescription.getText().toString()) || currentStateSelected == null) {
+        if (TextUtils.isEmpty(editName.getText().toString()) || TextUtils.isEmpty(editDescription.getText().toString()) || currentStateSelected == null) {
             return true;
         } else {
             return false;

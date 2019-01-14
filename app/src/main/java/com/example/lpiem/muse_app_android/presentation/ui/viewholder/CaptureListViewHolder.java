@@ -17,7 +17,7 @@ public class CaptureListViewHolder extends RecyclerView.ViewHolder {
 
     public CaptureListViewHolder(@NonNull View itemView) {
         super(itemView);
-        captureEtat = itemView.findViewById(R.id.imgEtat);
+        captureEtat = itemView.findViewById(R.id.imgState);
         captureTitre = itemView.findViewById(R.id.txtCapture);
         captureTemps = itemView.findViewById(R.id.txtTemps);
         captureDate = itemView.findViewById(R.id.txtDate);

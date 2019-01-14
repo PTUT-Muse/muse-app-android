@@ -9,10 +9,10 @@ xmlns:android="http://schemas.android.com/apk/res/android">
     android:title="@string/ic_settings"
     app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/menu_exporter"
+        android:id="@+id/menu_export"
         android:title="Exporter" />
     <item
-        android:id="@+id/menu_supprimer"
+        android:id="@+id/menu_delete"
         android:title="Supprimer" />
 
 

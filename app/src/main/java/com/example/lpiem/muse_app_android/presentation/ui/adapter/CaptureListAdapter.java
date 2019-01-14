@@ -37,8 +37,8 @@ public class CaptureListAdapter extends RecyclerView.Adapter<CaptureListViewHold
         holder.captureTitre.setText(captureList.get(position).getTitre());
         holder.captureDate.setText(captureList.get(position).getDate());
         holder.captureTemps.setText(captureList.get(position).getTemps());
-        Log.d("mlk", "id etat : "+captureList.get(position).getEtat());
-        holder.captureEtat.setImageResource(R.mipmap.etonne);
+        Log.d("mlk", "state id : "+captureList.get(position).getEtat());
+        setStateImage(captureList.get(position).getEtat(), holder);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,5 +60,29 @@ public class CaptureListAdapter extends RecyclerView.Adapter<CaptureListViewHold
     private void addComicsList(List<Capture> listCapture) {
         this.captureList.addAll(listCapture);
         notifyDataSetChanged();
+    }
+
+    private void setStateImage(int stateId, CaptureListViewHolder holder){
+        switch (stateId) {
+            case 0:
+                holder.captureEtat.setImageResource(R.mipmap.content);
+                break;
+            case 1:
+                holder.captureEtat.setImageResource(R.mipmap.colere);
+                break;
+            case 2:
+                holder.captureEtat.setImageResource(R.mipmap.etonne);
+                break;
+            case 3:
+                holder.captureEtat.setImageResource(R.mipmap.move);
+                break;
+            case 4:
+                holder.captureEtat.setImageResource(R.mipmap.neutre);
+                break;
+            case 5:
+                holder.captureEtat.setImageResource(R.mipmap.triste);
+                break;
+        }
+
     }
 }
