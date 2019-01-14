@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnCapture">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtEditNom"
+            android:id="@+id/txtEditName"
             android:layout_width="1280dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
@@ -197,6 +197,18 @@
         android:textSize="35dp"
         app:layout_constraintBottom_toTopOf="@+id/txtLayoutNom"
         app:layout_constraintEnd_toStartOf="@+id/btnCapture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="116dp"
+        android:text="@string/champs_obligatoires"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,12 +15,14 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
+import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DateFormat;
 import java.util.Date;
 
 public class NewCaptureActivity extends AppCompatActivity implements View.OnClickListener {
+    SQLiteDataBase db;
     Button btnDetails;
     ImageButton btnStart;
     ImageButton btnStop;
@@ -34,6 +37,8 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_capture);
+        db = new SQLiteDataBase(this);
+
         this.setTitle(R.string.new_capture_title_bar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -104,11 +109,14 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
             case R.id.fab_addCapture:
                 Bundle extras = getIntent().getExtras();
                 String currentDate = DateFormat.getDateInstance().format(new Date());
-                boolean isInserted = db.insertData(extras.getString("nom"), extras.getString("description"), currentDate, "04:25", extras.getInt("idEtat"),"donnees");
+                long timeChrono = SystemClock.elapsedRealtime() - chronometer.getBase();
+                boolean isInserted = db.insertData(extras.getString("nom"), extras.getString("description"), currentDate, chronometer.getText().toString(), extras.getInt("idEtat"),"donnees");
                 if (isInserted == true) {
                     Toast.makeText(NewCaptureActivity.this, "Capture ajoutée", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(NewCaptureActivity.this, CaptureListActivity.class);
                     startActivity(intent);
+                } else {
+                    Toast.makeText(NewCaptureActivity.this, "Erreur à l'ajout de la capture", Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.btn3D:
