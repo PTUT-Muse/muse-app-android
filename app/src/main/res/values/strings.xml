@@ -13,4 +13,5 @@
     <string name="CreateCaptureDetailsPlaceholderTitle">Nom de la capture</string>
     <string name="CreateCaptureDetailsPlaceholderDescription">Description</string>
     <string name="CreateCaptureTemps">Temps écoulé</string>
+    <string name="DetailCaptureModifier">Modifier</string>
 </resources>

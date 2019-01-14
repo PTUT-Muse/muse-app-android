@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_background_app"
+    tools:context=".presentation.ui.activity.DetailCaptureActivity"
+    tools:layout_editor_absoluteY="25dp">
+
+    <ImageButton
+        android:id="@+id/btn3D"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="43dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toEndOf="@+id/graph"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/three_d" />
+
+    <Button
+        android:id="@+id/graph"
+        android:layout_width="759dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginBottom="49dp"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/imgEtat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgEtat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtLayoutDescription"
+        app:layout_constraintEnd_toStartOf="@+id/txtLayoutNom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graph"
+        app:srcCompat="@mipmap/content" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtLayoutNom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="33dp"
+        android:hint="@string/CreateCaptureDetailsPlaceholderTitle"
+        android:textColorHint="@color/colorPlaceHolderInput"
+        android:theme="@style/TextInputLayoutAppearance"
+        app:layout_constraintBottom_toTopOf="@+id/txtLayoutDescription"
+        app:layout_constraintEnd_toEndOf="@id/graph"
+        app:layout_constraintStart_toEndOf="@+id/imgEtat">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtEditNom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/colorAccent"
+            android:textCursorDrawable="@drawable/color_cursor_input" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtLayoutDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="118dp"
+        android:hint="@string/CreateCaptureDetailsPlaceholderDescription"
+        android:maxHeight="60dp"
+        android:textColorHint="@color/colorPlaceHolderInput"
+        android:theme="@style/TextInputLayoutAppearance"
+        app:counterEnabled="true"
+        app:counterMaxLength="150"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtLayoutNom"
+        app:layout_constraintStart_toStartOf="@+id/txtLayoutNom"
+        app:layout_constraintTop_toBottomOf="@+id/imgEtat">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtEditDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:maxHeight="70dp"
+            android:textColor="@color/colorAccent"
+
+            android:textCursorDrawable="@drawable/color_cursor_input" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnModify"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="155dp"
+        android:layout_height="68dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/DetailCaptureModifier"
+        android:textSize="20sp"
+        app:backgroundTint="@color/colorValidation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
