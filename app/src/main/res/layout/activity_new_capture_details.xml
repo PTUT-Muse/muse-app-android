@@ -90,12 +90,12 @@
         android:text="@string/new_capture_etat"
         android:textColor="@color/colorAccent"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/imgEtatContent"
+        app:layout_constraintBottom_toTopOf="@+id/imgStateHappy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imgEtatContent"
+        android:id="@+id/imgStateHappy"
         android:layout_width="wrap_content"
         android:layout_height="78dp"
         android:layout_marginStart="99dp"
@@ -103,72 +103,72 @@
         android:layout_marginBottom="117dp"
         android:alpha="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imgEtatEtonne"
+        app:layout_constraintEnd_toStartOf="@+id/imgStateSurprise"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@mipmap/content" />
 
     <ImageView
-        android:id="@+id/imgEtatEtonne"
+        android:id="@+id/imgStateSurprise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="117dp"
         android:alpha="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imgEtatNeutre"
-        app:layout_constraintStart_toEndOf="@+id/imgEtatContent"
+        app:layout_constraintEnd_toStartOf="@+id/imgStateNeutral"
+        app:layout_constraintStart_toEndOf="@+id/imgStateHappy"
         app:srcCompat="@mipmap/etonne" />
 
     <ImageView
-        android:id="@+id/imgEtatNeutre"
+        android:id="@+id/imgStateNeutral"
         android:layout_width="92dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="117dp"
         android:alpha="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imgEtatColere"
-        app:layout_constraintStart_toEndOf="@+id/imgEtatEtonne"
+        app:layout_constraintEnd_toStartOf="@+id/imgStateAngry"
+        app:layout_constraintStart_toEndOf="@+id/imgStateSurprise"
         app:srcCompat="@mipmap/neutre" />
 
     <ImageView
-        android:id="@+id/imgEtatColere"
+        android:id="@+id/imgStateAngry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="117dp"
         android:alpha="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imgEtatTriste"
-        app:layout_constraintStart_toEndOf="@+id/imgEtatNeutre"
+        app:layout_constraintEnd_toStartOf="@+id/imgStateSad"
+        app:layout_constraintStart_toEndOf="@+id/imgStateNeutral"
         app:srcCompat="@mipmap/colere" />
 
     <ImageView
-        android:id="@+id/imgEtatMove"
+        android:id="@+id/imgStateMove"
         android:layout_width="81dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:alpha="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imgEtatTriste"
-        app:layout_constraintTop_toTopOf="@id/imgEtatColere"
+        app:layout_constraintStart_toEndOf="@+id/imgStateSad"
+        app:layout_constraintTop_toTopOf="@id/imgStateAngry"
         app:srcCompat="@mipmap/move"
         tools:layout_editor_absoluteY="480dp" />
 
 
     <ImageView
-        android:id="@+id/imgEtatTriste"
+        android:id="@+id/imgStateSad"
         android:layout_width="81dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="117dp"
         android:alpha="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imgEtatMove"
-        app:layout_constraintStart_toEndOf="@+id/imgEtatColere"
+        app:layout_constraintEnd_toStartOf="@+id/imgStateMove"
+        app:layout_constraintStart_toEndOf="@+id/imgStateAngry"
         app:srcCompat="@mipmap/triste" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSuivant"
+        android:id="@+id/btnNext"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="155dp"
         android:layout_height="68dp"
