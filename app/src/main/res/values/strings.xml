@@ -12,4 +12,5 @@
     <string name="new_capture_suivant">Suivant</string>
     <string name="CreateCaptureDetailsPlaceholderTitle">Nom de la capture</string>
     <string name="CreateCaptureDetailsPlaceholderDescription">Description</string>
+    <string name="CreateCaptureTemps">Temps écoulé</string>
 </resources>

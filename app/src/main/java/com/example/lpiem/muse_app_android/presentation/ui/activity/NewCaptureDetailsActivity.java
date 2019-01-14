@@ -2,6 +2,7 @@ package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,13 +13,13 @@ import android.widget.ImageView;
 import com.example.lpiem.muse_app_android.R;
 
 public class NewCaptureDetailsActivity extends AppCompatActivity implements View.OnClickListener {
-    ImageView imgEtatContent;
-    ImageView imgEtatColere;
-    ImageView imgEtatEtonne;
-    ImageView imgEtatMove;
-    ImageView imgEtatNeutre;
-    ImageView imgEtatTriste;
-    Button btnSuivant;
+    ImageView imgStateHappy;
+    ImageView imgStateAngry;
+    ImageView imgStateSurprise;
+    ImageView imgStateMove;
+    ImageView imgStateNeutral;
+    ImageView imgStateSad;
+    Button btnNext;
     Button btnCapture;
     private ImageView currentStateSelected = null;
 
@@ -29,22 +30,22 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
         this.setTitle(R.string.new_capture_title_bar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        btnSuivant = findViewById(R.id.btnSuivant);
-        btnSuivant.setOnClickListener(this);
+        btnNext = findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(this);
         btnCapture = findViewById(R.id.btnCapture);
         btnCapture.setOnClickListener(this);
-        imgEtatContent = findViewById(R.id.imgEtatContent);
-        imgEtatContent.setOnClickListener(this);
-        imgEtatColere = findViewById(R.id.imgEtatColere);
-        imgEtatColere.setOnClickListener(this);
-        imgEtatEtonne = findViewById(R.id.imgEtatEtonne);
-        imgEtatEtonne.setOnClickListener(this);
-        imgEtatMove = findViewById(R.id.imgEtatMove);
-        imgEtatMove.setOnClickListener(this);
-        imgEtatNeutre = findViewById(R.id.imgEtatNeutre);
-        imgEtatNeutre.setOnClickListener(this);
-        imgEtatTriste = findViewById(R.id.imgEtatTriste);
-        imgEtatTriste.setOnClickListener(this);
+        imgStateHappy = findViewById(R.id.imgStateHappy);
+        imgStateHappy.setOnClickListener(this);
+        imgStateAngry = findViewById(R.id.imgStateAngry);
+        imgStateAngry.setOnClickListener(this);
+        imgStateSurprise = findViewById(R.id.imgStateSurprise);
+        imgStateSurprise.setOnClickListener(this);
+        imgStateMove = findViewById(R.id.imgStateMove);
+        imgStateMove.setOnClickListener(this);
+        imgStateNeutral = findViewById(R.id.imgStateNeutral);
+        imgStateNeutral.setOnClickListener(this);
+        imgStateSad = findViewById(R.id.imgStateSad);
+        imgStateSad.setOnClickListener(this);
 
     }
 
@@ -70,28 +71,30 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.imgEtatContent:
-                setState(imgEtatContent);
+            case R.id.imgStateHappy:
+                setState(imgStateHappy);
                 break;
-            case R.id.imgEtatColere:
-                setState(imgEtatColere);
+            case R.id.imgStateAngry:
+                setState(imgStateAngry);
                 break;
-            case R.id.imgEtatEtonne:
-                setState(imgEtatEtonne);
+            case R.id.imgStateSurprise:
+                setState(imgStateSurprise);
                 break;
-            case R.id.imgEtatMove:
-                setState(imgEtatMove);
+            case R.id.imgStateMove:
+                setState(imgStateMove);
                 break;
-            case R.id.imgEtatNeutre:
-                setState(imgEtatNeutre);
+            case R.id.imgStateNeutral:
+                setState(imgStateNeutral);
                 break;
-            case R.id.imgEtatTriste:
-                setState(imgEtatTriste);
+            case R.id.imgStateSad:
+                setState(imgStateSad);
                 break;
-            case R.id.btnSuivant:
+            case R.id.btnNext:
             case R.id.btnCapture:
-                // Intent intent = new Intent(NewCaptureDetailsActivity.this, NewCaptureActivity.class);
-                // startActivity(intent);
+                Intent intent = new Intent(NewCaptureDetailsActivity.this, NewCaptureActivity.class);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+
                 break;
             default:
                 break;
