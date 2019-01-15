@@ -63,7 +63,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
 
         dataListener = new DataListener(weakPresenter);
 
-        presenter.setConnectionListener(new ConnectionListener(weakPresenter,null));
+        presenter.setConnectionListener(new ConnectionListener(weakPresenter,null,null, null));
         presenter.setDataListenerMuse(dataListener);
 
         handler.post(presenter.tickUi);
@@ -131,27 +131,26 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void showMuseDisconnect() {
-        //TODO Ecouter sur toutes les pages, reset muse dans le repository
         Log.d("mlkk", "disconnected");
         presenter.stopHandler();
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("Appareil déconnecté");
-        builder1.setCancelable(false);
+        presenter.resetMuse();
 
-        builder1.setPositiveButton(
-                "Ok",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
+                .setTitle("Appareil déconnecté")
+                .setMessage("Vous allez être redirigé sur la page pour connecter l'appareil")
+                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
                         dialog.cancel();
 
                         Intent intent = new Intent(NewCaptureActivity.this, ConnectDeviceActivity.class);
                         startActivity(intent);
                     }
                 });
-
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
 
     }
 

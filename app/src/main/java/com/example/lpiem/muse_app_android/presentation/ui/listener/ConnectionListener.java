@@ -3,27 +3,37 @@ package com.example.lpiem.muse_app_android.presentation.ui.listener;
 import com.choosemuse.libmuse.Muse;
 import com.choosemuse.libmuse.MuseConnectionListener;
 import com.choosemuse.libmuse.MuseConnectionPacket;
+import com.example.lpiem.muse_app_android.presentation.presenter.CaptureListPresenter;
 import com.example.lpiem.muse_app_android.presentation.presenter.ConnectDevicePresenter;
+import com.example.lpiem.muse_app_android.presentation.presenter.NewCaptureDetailsPresenter;
 import com.example.lpiem.muse_app_android.presentation.presenter.NewCapturePresenter;
 
 import java.lang.ref.WeakReference;
 
 public class ConnectionListener extends MuseConnectionListener {
-    final WeakReference<NewCapturePresenter> activityNewCapturePresenter;
-    final WeakReference<ConnectDevicePresenter> connectDevicePresenter;
+    final WeakReference<NewCapturePresenter> weakNewCapturePresenter;
+    final WeakReference<ConnectDevicePresenter> weakConnectDevicePresenter;
+    final WeakReference<NewCaptureDetailsPresenter> weakNewCaptureDetailsPresenter;
+    final WeakReference<CaptureListPresenter> weakCaptureListPresenter;
 
 
-    public ConnectionListener(final WeakReference<NewCapturePresenter> activityNewCapturePresenter,final WeakReference<ConnectDevicePresenter> connectDevicePresenter) {
-        this.activityNewCapturePresenter = activityNewCapturePresenter;
-        this.connectDevicePresenter = connectDevicePresenter;
+    public ConnectionListener(final WeakReference<NewCapturePresenter> activityNewCapturePresenter,final WeakReference<ConnectDevicePresenter> connectDevicePresenter, final WeakReference<NewCaptureDetailsPresenter> weakNewCaptureDetailsPresenter, final WeakReference<CaptureListPresenter> weakCaptureListPresenter) {
+        this.weakNewCapturePresenter = activityNewCapturePresenter;
+        this.weakConnectDevicePresenter = connectDevicePresenter;
+        this.weakNewCaptureDetailsPresenter = weakNewCaptureDetailsPresenter;
+        this.weakCaptureListPresenter = weakCaptureListPresenter;
     }
 
     @Override
     public void receiveMuseConnectionPacket(final MuseConnectionPacket p, final Muse muse) {
-        if(activityNewCapturePresenter != null){
-            activityNewCapturePresenter.get().receiveMuseConnectionPacket(p,muse);
+        if(weakNewCapturePresenter != null){
+            weakNewCapturePresenter.get().receiveMuseConnectionPacket(p,muse);
+        } else if(weakConnectDevicePresenter != null){
+            weakConnectDevicePresenter.get().receiveMuseConnectionPacket(p,muse);
+        } else if(weakNewCaptureDetailsPresenter != null){
+            weakNewCaptureDetailsPresenter.get().receiveMuseConnectionPacket(p,muse);
         } else {
-            connectDevicePresenter.get().receiveMuseConnectionPacket(p,muse);
+            weakCaptureListPresenter.get().receiveMuseConnectionPacket(p,muse);
         }
     }
 }

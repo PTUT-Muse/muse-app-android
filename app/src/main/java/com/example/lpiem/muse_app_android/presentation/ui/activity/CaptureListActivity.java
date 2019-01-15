@@ -1,5 +1,6 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +12,15 @@ import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.data.model.Capture;
 import com.example.lpiem.muse_app_android.presentation.presenter.CaptureListPresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.adapter.CaptureListAdapter;
+import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
 import com.example.lpiem.muse_app_android.presentation.ui.view.CaptureListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +38,15 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_list);
+
+
+        if(presenter.museIsInstantiate()) {
+            presenter.setContextMuseManager(this);
+
+            WeakReference<CaptureListPresenter> weakPresenter = new WeakReference<>(presenter);
+
+            presenter.setConnectionListener(new ConnectionListener(null,null,null , weakPresenter));
+        }
 
         captureRecyclerView = findViewById(R.id.capture_list_rv);
         FloatingActionButton fabAddCapture = findViewById(R.id.fab_addCapture);
@@ -59,14 +72,20 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
         fabAddCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CaptureListActivity.this, ConnectDeviceActivity.class);
-                startActivity(intent);
+
+                if(presenter.museIsInstantiate() == false) {
+                    Intent intent = new Intent(CaptureListActivity.this, ConnectDeviceActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(CaptureListActivity.this, NewCaptureDetailsActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
 
         captureRecyclerView.setAdapter(captureListAdapter);
         //presenter.getAllCaptures();
-        Log.d("mlk", "mlk"+presenter.isPaired());
     }
 
     @Override
@@ -79,5 +98,12 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
     @Override
     public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showMuseDisconnect() {
+        presenter.resetMuse();
+        Toast toast = Toast.makeText(this, "Appareil deconnecté", Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

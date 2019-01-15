@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.choosemuse.libmuse.Muse;
 import com.example.lpiem.muse_app_android.R;
@@ -38,6 +39,7 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
     private Button next;
     private Button refresh;
     private Spinner spinnerDevice;
+    private Boolean isSelected = false;
 
     private ArrayAdapter<String> spinnerAdapter;
 
@@ -47,7 +49,7 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_device);
-        this.setTitle("Connecter l'appreil");
+        this.setTitle(R.string.connect_device_title_bar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -63,13 +65,15 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
         spinnerDevice.setAdapter(spinnerAdapter);
         spinnerDevice.setOnItemSelectedListener(OnCatSpinnerCL);
 
+        next.setAlpha(0.5f);
+
         presenter.setContextMuseManager(this);
 
         WeakReference<ConnectDevicePresenter> weakPresenter = new WeakReference<>(presenter);
 
         WeakReference<ConnectDeviceActivity> weakActivity = new WeakReference<>(this);
 
-        connectionListener = new ConnectionListener(null , weakPresenter);
+        connectionListener = new ConnectionListener(null , weakPresenter, null, null);
         presenter.setMuseListener(new ListenerMuse(weakActivity));
 
         ensurePermissions();
@@ -101,11 +105,15 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
 
             parent.getChildAt(0).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             ((TextView) parent.getChildAt(0)).setTextSize(30);
+            ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.colorAccent));
+            next.setAlpha(1f);
+            isSelected = true;
 
         }
 
         public void onNothingSelected(AdapterView<?> parent) {
-
+            next.setAlpha(0.5f);
+            isSelected = false;
         }
     };
 
@@ -113,17 +121,23 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.goToCreateDetails:
-                Log.d("mlk", "start");
-                presenter.stopListeningDevice();
-                presenter.connectDevice(connectionListener);
+                if (isSelected) {
+                    Log.d("mlk", "start");
+                    presenter.stopListeningDevice();
+                    presenter.connectDevice(connectionListener);
 
-                Intent intent = new Intent(ConnectDeviceActivity.this, NewCaptureDetailsActivity.class);
-                startActivity(intent);
+                    Intent intent = new Intent(ConnectDeviceActivity.this, NewCaptureDetailsActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, R.string.connect_device_selection, Toast.LENGTH_LONG).show();
+                }
 
                 break;
             case R.id.refresh:
                 Log.d("mlk", "refresh");
+                spinnerAdapter.clear();
                 presenter.refreshListeningDevice();
+
                 break;
         }
     }
@@ -153,7 +167,6 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
 
         Log.d("mlk", "refresh");
         final List<Muse> list = presenter.getDeviceAvaibles();
-        spinnerAdapter.clear();
         for (Muse m : list) {
             spinnerAdapter.add(m.getName() + " - " + m.getMacAddress());
         }
