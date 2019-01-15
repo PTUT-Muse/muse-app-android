@@ -47,6 +47,9 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_device);
+        this.setTitle("Connecter l'appreil");
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         next = findViewById(R.id.goToCreateDetails);
         refresh = findViewById(R.id.refresh);
@@ -62,9 +65,11 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
 
         presenter.setContextMuseManager(this);
 
+        WeakReference<ConnectDevicePresenter> weakPresenter = new WeakReference<>(presenter);
+
         WeakReference<ConnectDeviceActivity> weakActivity = new WeakReference<>(this);
 
-        connectionListener = new ConnectionListener(weakActivity);
+        connectionListener = new ConnectionListener(null , weakPresenter);
         presenter.setMuseListener(new ListenerMuse(weakActivity));
 
         ensurePermissions();
@@ -110,15 +115,7 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
             case R.id.goToCreateDetails:
                 Log.d("mlk", "start");
                 presenter.stopListeningDevice();
-
-                List<Muse> availableMuses = presenter.getDeviceAvaibles();
-
-                muse = availableMuses.get(0);
-
-                muse.unregisterAllListeners();
-                muse.registerConnectionListener(connectionListener);
-
-                muse.runAsynchronously();
+                presenter.connectDevice(connectionListener);
 
                 Intent intent = new Intent(ConnectDeviceActivity.this, NewCaptureDetailsActivity.class);
                 startActivity(intent);
