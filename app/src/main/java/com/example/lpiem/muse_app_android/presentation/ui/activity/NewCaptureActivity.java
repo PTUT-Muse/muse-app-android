@@ -1,7 +1,5 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +10,8 @@ import android.widget.ImageButton;
 
 import com.example.lpiem.muse_app_android.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class NewCaptureActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnDetails;

@@ -2,20 +2,23 @@ package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.choosemuse.libmuse.Muse;
-import com.choosemuse.libmuse.MuseDataPacketType;
 import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.presentation.presenter.ConnectDevicePresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
-import com.example.lpiem.muse_app_android.presentation.ui.listener.DataListener;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ListenerMuse;
 import com.example.lpiem.muse_app_android.presentation.ui.view.ConnectDeviceView;
 
@@ -36,10 +39,9 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
     private Button refresh;
     private Spinner spinnerDevice;
 
-    private ConnectionListener connectionListener;
-    private DataListener dataListener;
-
     private ArrayAdapter<String> spinnerAdapter;
+
+    private ConnectionListener connectionListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,43 +58,57 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
         spinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item);
 
         spinnerDevice.setAdapter(spinnerAdapter);
-       // spinnerDevice.setOnItemSelectedListener(OnCatSpinnerCL);
+        spinnerDevice.setOnItemSelectedListener(OnCatSpinnerCL);
 
         presenter.setContextMuseManager(this);
 
-        WeakReference<ConnectDevicePresenter> weakPresenter = new WeakReference<>(presenter);
-
         WeakReference<ConnectDeviceActivity> weakActivity = new WeakReference<>(this);
 
-        connectionListener = new ConnectionListener(weakPresenter);
-        dataListener = new DataListener(weakPresenter);
+        connectionListener = new ConnectionListener(weakActivity);
+        presenter.setMuseListener(new ListenerMuse(weakActivity));
 
         ensurePermissions();
 
-        presenter.setMuseListener(new ListenerMuse(weakActivity));
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_new_capture, menu);
+        return true;
+    }
 
-    /*private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(0, 0);
+                return true;
+            case R.id.menu_settings:
+                // lancer intent settings
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
-            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
-            ((TextView) parent.getChildAt(0)).setTextSize(5);
+            parent.getChildAt(0).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            ((TextView) parent.getChildAt(0)).setTextSize(30);
 
         }
 
         public void onNothingSelected(AdapterView<?> parent) {
 
         }
-    };*/
+    };
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.goToCreateDetails:
                 Log.d("mlk", "start");
-
                 presenter.stopListeningDevice();
 
                 List<Muse> availableMuses = presenter.getDeviceAvaibles();
@@ -101,9 +117,11 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
 
                 muse.unregisterAllListeners();
                 muse.registerConnectionListener(connectionListener);
-                muse.registerDataListener(dataListener, MuseDataPacketType.EEG);
 
                 muse.runAsynchronously();
+
+                Intent intent = new Intent(ConnectDeviceActivity.this, NewCaptureDetailsActivity.class);
+                startActivity(intent);
 
                 break;
             case R.id.refresh:
@@ -111,14 +129,6 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
                 presenter.refreshListeningDevice();
                 break;
         }
-    }
-
-    @Override
-    public void updateEeg(double[] eegBuffer) {
-        Log.d("mlk", "test eegBuffer 1 : "+String.format("%6.2f", eegBuffer[0]));
-        Log.d("mlk", "test eegBuffer 2 : "+String.format("%6.2f", eegBuffer[1]));
-        Log.d("mlk", "test eegBuffer 3 : "+String.format("%6.2f", eegBuffer[2]));
-        Log.d("mlk", "test eegBuffer 4 : "+String.format("%6.2f", eegBuffer[3]));
     }
 
     private void ensurePermissions() {

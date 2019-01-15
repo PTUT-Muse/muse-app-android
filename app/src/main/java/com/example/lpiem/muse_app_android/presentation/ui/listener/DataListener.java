@@ -17,7 +17,7 @@ public class DataListener extends MuseDataListener {
 
     @Override
     public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
-        activityRef.get().receiveMuseDataPacket(p, muse);
+      //  activityRef.get().receiveMuseDataPacket(p, muse);
     }
 
     @Override

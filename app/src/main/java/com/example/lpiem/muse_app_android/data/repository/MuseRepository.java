@@ -35,7 +35,7 @@ public class MuseRepository {
     }
 
     public void stopListeningDevice(){
-        this.museManager.startListening();
+        this.museManager.stopListening();
     }
 
     public ArrayList<Muse> getDeviceAvaibles(){

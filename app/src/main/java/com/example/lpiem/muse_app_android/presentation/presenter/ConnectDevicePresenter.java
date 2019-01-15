@@ -20,11 +20,6 @@ public class ConnectDevicePresenter {
 
     private MuseRepository repository = MuseApplication.getInstance().getRepository();
 
-    private boolean eegStale;
-    private final double[] eegBuffer = new double[6];
-
-    private final Handler handler = new Handler();
-
 
     public ConnectDevicePresenter(ConnectDeviceView view){
         this.view = view;
@@ -51,42 +46,8 @@ public class ConnectDevicePresenter {
         return this.repository.getDeviceAvaibles();
     }
 
-    public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
-        final long n = p.valuesSize();
-        switch (p.packetType()) {
-            case EEG:
-                assert(eegBuffer.length >= n);
-                getEegChannelValues(eegBuffer,p);
-                eegStale = true;
-                break;
-            case ACCELEROMETER:
-            case ALPHA_RELATIVE:
-            case BATTERY:
-            case DRL_REF:
-            case QUANTIZATION:
-            default:
-                break;
-        }
-    }
 
-    private void getEegChannelValues(double[] buffer, MuseDataPacket p) {
-        buffer[0] = p.getEegChannelValue(Eeg.EEG1);
-        buffer[1] = p.getEegChannelValue(Eeg.EEG2);
-        buffer[2] = p.getEegChannelValue(Eeg.EEG3);
-        buffer[3] = p.getEegChannelValue(Eeg.EEG4);
-        buffer[4] = p.getEegChannelValue(Eeg.AUX_LEFT);
-        buffer[5] = p.getEegChannelValue(Eeg.AUX_RIGHT);
-    }
 
-    public final Runnable tickUi = new Runnable() {
-        @Override
-        public void run() {
-            if (eegStale) {
-                view.updateEeg(eegBuffer);
-            }
-            handler.postDelayed(tickUi, 60);
-        }
-    };
 
 
 

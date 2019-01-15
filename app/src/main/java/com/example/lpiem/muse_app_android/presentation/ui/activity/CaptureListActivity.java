@@ -1,9 +1,5 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,13 +8,16 @@ import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.data.model.Capture;
-import com.example.lpiem.muse_app_android.presentation.presenter.CaptureListPresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.adapter.CaptureListAdapter;
 import com.example.lpiem.muse_app_android.presentation.ui.view.CaptureListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CaptureListActivity extends AppCompatActivity implements CaptureListView {
     //private CaptureListPresenter presenter = new CaptureListPresenter(this);
