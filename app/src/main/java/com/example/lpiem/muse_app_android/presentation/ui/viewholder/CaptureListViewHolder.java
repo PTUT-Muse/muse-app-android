@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CaptureListViewHolder extends RecyclerView.ViewHolder {
     public ImageView captureEtat;
     public TextView captureTitre;
-    public TextView captureHeure;
+    public TextView captureTemps;
     public TextView captureDate;
 
     public CaptureListViewHolder(@NonNull View itemView) {
         super(itemView);
-        captureEtat = itemView.findViewById(R.id.imgEtat);
+        captureEtat = itemView.findViewById(R.id.imgState);
         captureTitre = itemView.findViewById(R.id.txtCapture);
-        captureHeure = itemView.findViewById(R.id.txtHeure);
+        captureTemps = itemView.findViewById(R.id.txtTemps);
         captureDate = itemView.findViewById(R.id.txtDate);
 
     }
