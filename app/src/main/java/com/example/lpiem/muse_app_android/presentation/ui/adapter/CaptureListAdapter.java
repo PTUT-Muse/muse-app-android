@@ -34,11 +34,11 @@ public class CaptureListAdapter extends RecyclerView.Adapter<CaptureListViewHold
 
     @Override
     public void onBindViewHolder(@NonNull CaptureListViewHolder holder, final int position) {
-        holder.captureTitre.setText(captureList.get(position).getTitre());
+        holder.captureTitre.setText(captureList.get(position).getTitle());
         holder.captureDate.setText(captureList.get(position).getDate());
-        holder.captureTemps.setText(captureList.get(position).getTemps());
-        Log.d("mlk", "state id : "+captureList.get(position).getEtat());
-        setStateImage(captureList.get(position).getEtat(), holder);
+        holder.captureTemps.setText(captureList.get(position).getTime());
+        Log.d("mlk", "state id : "+captureList.get(position).getState());
+        setStateImage(captureList.get(position).getState(), holder);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
