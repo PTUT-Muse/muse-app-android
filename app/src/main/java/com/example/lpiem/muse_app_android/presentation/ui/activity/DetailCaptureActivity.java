@@ -37,7 +37,7 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
         db = new SQLiteDataBase(this);
         getCapture();
 
-        this.setTitle(capture.getTitre());
+        this.setTitle(capture.getTitle());
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnModify = findViewById(R.id.btnModify);
@@ -47,10 +47,10 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
         editTime = findViewById(R.id.txtChrono);
         imgState = findViewById(R.id.imgState);
 
-        editName.setText(capture.getTitre());
+        editName.setText(capture.getTitle());
         editDescription.setText(capture.getDescription());
-        editTime.setText(capture.getTemps());
-        setStateImage(capture.getEtat());
+        editTime.setText(capture.getTime());
+        setStateImage(capture.getState());
     }
 
     private void getCapture(){

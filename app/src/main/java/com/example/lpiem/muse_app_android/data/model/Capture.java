@@ -2,18 +2,18 @@ package com.example.lpiem.muse_app_android.data.model;
 
 public class Capture {
     private int id;
-    private int etat;
-    private String titre;
-    private String temps;
+    private int state;
+    private String title;
+    private String time;
     private String description;
     private String date;
 
-    public Capture(int id, int etat, String titre, String description, String date, String temps) {
-        this.etat = etat;
-        this.titre = titre;
+    public Capture(int id, int state, String title, String description, String date, String time) {
+        this.state = state;
+        this.title = title;
         this.description = description;
         this.date = date;
-        this.temps = temps;
+        this.time = time;
         this.id = id;
     }
 
@@ -25,20 +25,20 @@ public class Capture {
         this.id = id;
     }
 
-    public int getEtat() {
-        return etat;
+    public int getState() {
+        return state;
     }
 
-    public void setEtat(int etat) {
-        this.etat = etat;
+    public void setState(int state) {
+        this.state = state;
     }
 
-    public String getTitre() {
-        return titre;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitre(String titre) {
-        this.titre = titre;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setDescription(String description) {
@@ -53,12 +53,12 @@ public class Capture {
         this.date = date;
     }
 
-    public String getTemps() {
-        return temps;
+    public String getTime() {
+        return time;
     }
 
-    public void setTemps(String temps) {
-        this.temps = temps;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getDescription() {
