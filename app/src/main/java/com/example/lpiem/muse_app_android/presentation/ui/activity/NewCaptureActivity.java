@@ -4,11 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -27,6 +28,10 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
     ImageButton btn3d;
     FloatingActionButton addCapture;
 
+    private Chronometer timer;
+    private long pauseOffset;
+    private boolean running;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +41,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         this.setTitle(R.string.new_capture_title_bar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        timer = findViewById(R.id.chronometer);
         btnDetails = findViewById(R.id.btnDetails);
         btnDetails.setOnClickListener(this);
         btnStart = findViewById(R.id.btnStart);
@@ -77,16 +83,28 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
             case R.id.btnStart:
                 btnStart.setVisibility(View.INVISIBLE);
                 btnStop.setVisibility(View.VISIBLE);
+                timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+                timer.start();
+
                 break;
             case R.id.btnStop:
                 btnStop.setVisibility(View.INVISIBLE);
                 btnStart.setVisibility(View.VISIBLE);
-                break;
+                timer.stop();
+                pauseOffset = SystemClock.elapsedRealtime() - timer.getBase();
+
+            // TODO : faire icône reset
+            // case R.id.btnReset:
+//            btnStop.setVisibility(View.INVISIBLE);
+//            btnStart.setVisibility(View.VISIBLE);
+//                timer.setBase(SystemClock.elapsedRealtime());
+//                pauseOffset = 0;
+//                break;
             case R.id.fab_addCapture:
                 Bundle extras = getIntent().getExtras();
                 String currentDate = DateFormat.getDateInstance().format(new Date());
-                boolean isInserted = db.insertData(extras.getString("nom"), extras.getString("description"), currentDate, "04:25", extras.getInt("idEtat"),"donnees");
-                Log.d("mlk", "etat passé : "+extras.getInt("idEtat"));
+                long timeChrono = SystemClock.elapsedRealtime() - timer.getBase();
+                boolean isInserted = db.insertData(extras.getString("nom"), extras.getString("description"), currentDate, timer.getText().toString(), extras.getInt("idEtat"),"donnees");
                 if (isInserted == true) {
                     Toast.makeText(NewCaptureActivity.this, "Capture ajoutée", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(NewCaptureActivity.this, CaptureListActivity.class);
