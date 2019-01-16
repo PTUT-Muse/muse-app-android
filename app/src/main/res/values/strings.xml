@@ -8,12 +8,14 @@
     <string name="new_capture_title_bar">Nouvelle capture</string>
     <string name="new_capture_details">Détails</string>
     <string name="new_capture_capture">Capture</string>
-    <string name="new_capture_etat">Etat</string>
+    <string name="new_capture_etat">Etat *</string>
     <string name="new_capture_suivant">Suivant</string>
-    <string name="CreateCaptureDetailsPlaceholderTitle">Nom de la capture</string>
-    <string name="CreateCaptureDetailsPlaceholderDescription">Description</string>
+    <string name="CreateCaptureDetailsPlaceholderTitle">Nom de la capture *</string>
+    <string name="CreateCaptureDetailsPlaceholderDescription">Description *</string>
     <string name="CreateCaptureTemps">Temps écoulé</string>
     <string name="DetailCaptureModifier">Modifier</string>
     <string name="connect_device_refresh">Rafraichir</string>
     <string name="connect_device_next">Suivant</string>
+    <string name="db_name">Captures.db</string>
+    <string name="champs_obligatoires">Champs obligatoires *</string>
 </resources>

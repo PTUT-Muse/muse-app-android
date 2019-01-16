@@ -6,10 +6,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.os.SystemClock;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.presentation.presenter.NewCapturePresenter;
@@ -28,17 +32,20 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class NewCaptureActivity extends AppCompatActivity implements View.OnClickListener, NewCaptureView, OnChartValueSelectedListener {
 
     private NewCapturePresenter presenter = new NewCapturePresenter(this);
-
+    SQLiteDataBase db;
     Button btnDetails;
     ImageButton btnStart;
     ImageButton btnStop;
@@ -52,14 +59,20 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
     private LineChart chart;
 
     private PointerSpeedometer pointerSpeedometer;
+    private Chronometer timer;
+    private long pauseOffset;
+    private boolean running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_capture);
+        db = new SQLiteDataBase(this);
+
         this.setTitle(R.string.new_capture_title_bar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        timer = findViewById(R.id.chronometer);
         btnDetails = findViewById(R.id.btnDetails);
         btnDetails.setOnClickListener(this);
         btnStart = findViewById(R.id.btnStart);
@@ -114,17 +127,39 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
                 btnStop.setVisibility(View.VISIBLE);
 
                 presenter.setCaptureIsStart(true);
+                timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+                timer.start();
 
                 break;
             case R.id.btnStop:
                 btnStop.setVisibility(View.INVISIBLE);
                 btnStart.setVisibility(View.VISIBLE);
 
+                timer.stop();
+                pauseOffset = SystemClock.elapsedRealtime() - timer.getBase();
+
                 presenter.setCaptureIsStart(false);
                 break;
+
+            // TODO : faire icône reset
+            // case R.id.btnReset:
+//            btnStop.setVisibility(View.INVISIBLE);
+//            btnStart.setVisibility(View.VISIBLE);
+//                timer.setBase(SystemClock.elapsedRealtime());
+//                pauseOffset = 0;
+//                break;
             case R.id.fab_addCapture:
-                Intent intent = new Intent(NewCaptureActivity.this, CaptureListActivity.class);
-                startActivity(intent);
+                Bundle extras = getIntent().getExtras();
+                String currentDate = DateFormat.getDateInstance().format(new Date());
+                long timeChrono = SystemClock.elapsedRealtime() - timer.getBase();
+                boolean isInserted = db.insertData(extras.getString("nom"), extras.getString("description"), currentDate, timer.getText().toString(), extras.getInt("idEtat"),"donnees");
+                if (isInserted == true) {
+                    Toast.makeText(NewCaptureActivity.this, "Capture ajoutée", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(NewCaptureActivity.this, CaptureListActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(NewCaptureActivity.this, "Erreur à l'ajout de la capture", Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.btn3D:
                 // TODO : activer la 3D
