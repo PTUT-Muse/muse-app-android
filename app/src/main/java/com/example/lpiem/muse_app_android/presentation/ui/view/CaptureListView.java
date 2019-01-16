@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface CaptureListView {
     void updateList(List<Capture> listCapture);
-    void showError(String message);
     void showMuseDisconnect();
 
 }

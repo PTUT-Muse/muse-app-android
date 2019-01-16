@@ -1,7 +1,6 @@
 package com.example.lpiem.muse_app_android.presentation.presenter;
 
 import android.content.Context;
-import android.os.Handler;
 
 import com.choosemuse.libmuse.ConnectionState;
 import com.choosemuse.libmuse.Muse;
@@ -10,7 +9,6 @@ import com.example.lpiem.muse_app_android.MuseApplication;
 import com.example.lpiem.muse_app_android.data.repository.MuseRepository;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
 import com.example.lpiem.muse_app_android.presentation.ui.view.NewCaptureDetailsView;
-import com.example.lpiem.muse_app_android.presentation.ui.view.NewCaptureView;
 
 public class NewCaptureDetailsPresenter  {
 
@@ -23,7 +21,6 @@ public class NewCaptureDetailsPresenter  {
     public NewCaptureDetailsPresenter(NewCaptureDetailsView view){
         this.view = view;
     }
-
 
     public void setContextMuseManager(Context view){
         this.repository.setContextMuseManager(view);
