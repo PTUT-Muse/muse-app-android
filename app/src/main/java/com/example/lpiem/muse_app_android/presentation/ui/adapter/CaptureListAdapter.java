@@ -1,5 +1,6 @@
 package com.example.lpiem.muse_app_android.presentation.ui.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,11 @@ public class CaptureListAdapter extends RecyclerView.Adapter<CaptureListViewHold
 
     @Override
     public void onBindViewHolder(@NonNull CaptureListViewHolder holder, final int position) {
-        holder.captureTitre.setText("Test");
+        holder.captureTitre.setText(captureList.get(position).getTitle());
+        holder.captureDate.setText(captureList.get(position).getDate());
+        holder.captureTemps.setText(captureList.get(position).getTime());
+        Log.d("mlk", "state id : "+captureList.get(position).getState());
+        setStateImage(captureList.get(position).getState(), holder);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,5 +60,29 @@ public class CaptureListAdapter extends RecyclerView.Adapter<CaptureListViewHold
     private void addComicsList(List<Capture> listCapture) {
         this.captureList.addAll(listCapture);
         notifyDataSetChanged();
+    }
+
+    private void setStateImage(int stateId, CaptureListViewHolder holder){
+        switch (stateId) {
+            case 0:
+                holder.captureEtat.setImageResource(R.mipmap.content);
+                break;
+            case 1:
+                holder.captureEtat.setImageResource(R.mipmap.colere);
+                break;
+            case 2:
+                holder.captureEtat.setImageResource(R.mipmap.etonne);
+                break;
+            case 3:
+                holder.captureEtat.setImageResource(R.mipmap.move);
+                break;
+            case 4:
+                holder.captureEtat.setImageResource(R.mipmap.neutre);
+                break;
+            case 5:
+                holder.captureEtat.setImageResource(R.mipmap.triste);
+                break;
+        }
+
     }
 }

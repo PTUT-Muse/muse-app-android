@@ -27,12 +27,12 @@
         android:layout_marginTop="43dp"
         android:layout_marginBottom="49dp"
         android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/imgEtat"
+        app:layout_constraintBottom_toTopOf="@+id/imgState"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imgEtat"
+        android:id="@+id/imgState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
@@ -53,10 +53,10 @@
         android:theme="@style/TextInputLayoutAppearance"
         app:layout_constraintBottom_toTopOf="@+id/txtLayoutDescription"
         app:layout_constraintEnd_toEndOf="@id/graph"
-        app:layout_constraintStart_toEndOf="@+id/imgEtat">
+        app:layout_constraintStart_toEndOf="@+id/imgState">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtEditNom"
+            android:id="@+id/txtEditName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
@@ -78,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/txtLayoutNom"
         app:layout_constraintStart_toStartOf="@+id/txtLayoutNom"
-        app:layout_constraintTop_toBottomOf="@+id/imgEtat">
+        app:layout_constraintTop_toBottomOf="@+id/imgState">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtEditDescription"
@@ -104,5 +104,19 @@
         app:backgroundTint="@color/colorValidation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/txtChrono"
+        android:layout_width="763dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="257dp"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/graph"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/graph"
+        app:layout_constraintTop_toBottomOf="@+id/graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
