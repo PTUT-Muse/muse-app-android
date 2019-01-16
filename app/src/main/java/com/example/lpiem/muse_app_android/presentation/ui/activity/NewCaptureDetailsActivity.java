@@ -3,11 +3,14 @@ package com.example.lpiem.muse_app_android.presentation.ui.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.presentation.presenter.NewCaptureDetailsPresenter;
@@ -33,7 +36,10 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
     ImageView imgStateSad;
     Button btnNext;
     Button btnCapture;
+    EditText editName;
+    EditText editDescription;
     private ImageView currentStateSelected = null;
+    private int stateSelectedId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,8 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
 
         btnNext = findViewById(R.id.btnNext);
         btnNext.setOnClickListener(this);
+        editName = findViewById(R.id.txtEditName);
+        editDescription = findViewById(R.id.txtEditDescription);
         btnCapture = findViewById(R.id.btnCapture);
         btnCapture.setOnClickListener(this);
         imgStateHappy = findViewById(R.id.imgStateHappy);
@@ -90,29 +98,41 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
         switch (v.getId()) {
 
             case R.id.imgStateHappy:
+                stateSelectedId = 0;
                 setState(imgStateHappy);
                 break;
             case R.id.imgStateAngry:
+                stateSelectedId = 1;
                 setState(imgStateAngry);
                 break;
             case R.id.imgStateSurprise:
+                stateSelectedId = 2;
                 setState(imgStateSurprise);
                 break;
             case R.id.imgStateMove:
+                stateSelectedId = 3;
                 setState(imgStateMove);
                 break;
             case R.id.imgStateNeutral:
+                stateSelectedId = 4;
                 setState(imgStateNeutral);
                 break;
             case R.id.imgStateSad:
+                stateSelectedId = 5;
                 setState(imgStateSad);
                 break;
             case R.id.btnNext:
             case R.id.btnCapture:
-                Intent intent = new Intent(NewCaptureDetailsActivity.this, NewCaptureActivity.class);
-                startActivity(intent);
-                overridePendingTransition(0, 0);
-
+                if (isInputNull()) {
+                    Toast.makeText(NewCaptureDetailsActivity.this, "Tous les champs ne sont pas remplis", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(NewCaptureDetailsActivity.this, NewCaptureActivity.class);
+                    intent.putExtra("nom", editName.getText().toString());
+                    intent.putExtra("description", editDescription.getText().toString());
+                    intent.putExtra("idEtat", stateSelectedId);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                }
                 break;
             default:
                 break;
@@ -150,5 +170,13 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
         alertDialog.show();
         alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorBlue));
         alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+    }
+    
+    public boolean isInputNull(){
+        if (TextUtils.isEmpty(editName.getText().toString()) || TextUtils.isEmpty(editDescription.getText().toString()) || currentStateSelected == null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
