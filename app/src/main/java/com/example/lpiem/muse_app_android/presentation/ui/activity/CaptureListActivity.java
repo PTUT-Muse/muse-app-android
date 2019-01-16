@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.example.lpiem.muse_app_android.data.model.Capture;
+import com.example.lpiem.muse_app_android.presentation.presenter.CaptureListPresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.adapter.CaptureListAdapter;
 import com.example.lpiem.muse_app_android.presentation.ui.view.CaptureListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,7 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CaptureListActivity extends AppCompatActivity implements CaptureListView {
-    //private CaptureListPresenter presenter = new CaptureListPresenter(this);
+    private CaptureListPresenter presenter = new CaptureListPresenter(this);
 
     private RecyclerView captureRecyclerView;
     private CaptureListAdapter captureListAdapter;
@@ -64,7 +65,7 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
 
         captureRecyclerView.setAdapter(captureListAdapter);
         //presenter.getAllCaptures();
-
+        Log.d("mlk", "mlk"+presenter.isPaired());
     }
 
     @Override

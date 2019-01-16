@@ -5,19 +5,20 @@ import com.choosemuse.libmuse.MuseArtifactPacket;
 import com.choosemuse.libmuse.MuseDataListener;
 import com.choosemuse.libmuse.MuseDataPacket;
 import com.example.lpiem.muse_app_android.presentation.presenter.ConnectDevicePresenter;
+import com.example.lpiem.muse_app_android.presentation.presenter.NewCapturePresenter;
 
 import java.lang.ref.WeakReference;
 
 public class DataListener extends MuseDataListener {
-    final WeakReference<ConnectDevicePresenter> activityRef;
+    final WeakReference<NewCapturePresenter> activityRef;
 
-    public DataListener(final WeakReference<ConnectDevicePresenter> activityRef) {
+    public DataListener(final WeakReference<NewCapturePresenter> activityRef) {
         this.activityRef = activityRef;
     }
 
     @Override
     public void receiveMuseDataPacket(final MuseDataPacket p, final Muse muse) {
-      //  activityRef.get().receiveMuseDataPacket(p, muse);
+        activityRef.get().receiveMuseDataPacket(p, muse);
     }
 
     @Override
