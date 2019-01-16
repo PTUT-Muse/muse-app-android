@@ -60,7 +60,7 @@
         app:srcCompat="@drawable/ic_done"
         tools:ignore="VectorDrawableCompat" />
 
-    <Button
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/graph_capture"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -69,7 +69,6 @@
         android:layout_marginTop="120dp"
         android:layout_marginEnd="34dp"
         android:layout_marginBottom="200dp"
-        android:text="3D"
         app:layout_constraintBottom_toTopOf="@+id/btnLeftArrow"
         app:layout_constraintEnd_toStartOf="@+id/btn3D"
         app:layout_constraintStart_toStartOf="parent"
@@ -158,35 +157,21 @@
         android:background="@android:color/transparent"
         android:scaleX="-1"
         app:layout_constraintEnd_toStartOf="@+id/fab_addCapture"
-        app:layout_constraintStart_toEndOf="@+id/monitor2"
-        app:layout_constraintTop_toBottomOf="@+id/monitor2"
         app:srcCompat="@drawable/ic_arrow"
         tools:ignore="VectorDrawableCompat" />
 
-    <Button
+    <com.github.anastr.speedviewlib.PointerSpeedometer
         android:id="@+id/monitor1"
-        android:layout_width="0dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="102dp"
-        android:layout_marginBottom="97dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/monitor2"
-        app:layout_constraintStart_toEndOf="@+id/btnLeftArrow"
-        app:layout_constraintTop_toBottomOf="@+id/graph_capture" />
-
-    <Button
-        android:id="@+id/monitor2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="32dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/monitor1"
-        app:layout_constraintEnd_toStartOf="@+id/btnRightArrow"
-        app:layout_constraintStart_toEndOf="@+id/monitor1"
-        app:layout_constraintTop_toTopOf="@+id/monitor1"
-        app:layout_constraintVertical_bias="1.0" />
+        android:layout_gravity="center_horizontal"
+        app:sv_backgroundCircleColor="#00000000"
+        app:sv_speedometerColor="#00ccff"
+        app:sv_pointerColor="#f00"
+        app:sv_unitTextSize="15sp"
+        android:layout_width="143dp"
+        android:layout_height="151dp"
+        app:layout_constraintTop_toBottomOf="@id/graph_capture"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="@id/graph_capture"/>
 
     <TextView
         android:id="@+id/txtPagination"
