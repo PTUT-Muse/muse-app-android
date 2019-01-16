@@ -1,8 +1,5 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,6 +15,9 @@ import android.widget.Toast;
 import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.example.lpiem.muse_app_android.data.model.Capture;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class DetailCaptureActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnModify;

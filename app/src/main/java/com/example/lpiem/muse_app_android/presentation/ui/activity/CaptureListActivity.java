@@ -1,9 +1,5 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -15,13 +11,16 @@ import android.widget.Toast;
 import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.example.lpiem.muse_app_android.data.model.Capture;
-import com.example.lpiem.muse_app_android.presentation.presenter.CaptureListPresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.adapter.CaptureListAdapter;
 import com.example.lpiem.muse_app_android.presentation.ui.view.CaptureListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CaptureListActivity extends AppCompatActivity implements CaptureListView {
     //private CaptureListPresenter presenter = new CaptureListPresenter(this);
@@ -58,7 +57,7 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
         fabAddCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CaptureListActivity.this, NewCaptureDetailsActivity.class);
+                Intent intent = new Intent(CaptureListActivity.this, ConnectDeviceActivity.class);
                 startActivity(intent);
             }
         });

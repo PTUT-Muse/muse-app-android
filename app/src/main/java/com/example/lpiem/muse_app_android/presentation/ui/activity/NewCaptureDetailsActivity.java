@@ -1,7 +1,5 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class NewCaptureDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView imgStateHappy;

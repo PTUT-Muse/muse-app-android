@@ -1,7 +1,5 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -17,6 +15,7 @@ import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.appcompat.app.AppCompatActivity;
 import java.text.DateFormat;
 import java.util.Date;
 
