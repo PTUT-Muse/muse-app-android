@@ -65,7 +65,7 @@ public class MuseRepository {
         muse.registerConnectionListener(conntionListener);
     }
 
-    public boolean isPaired(){
+    public boolean museIsInstantiate(){
         return this.muse != null;
     }
 

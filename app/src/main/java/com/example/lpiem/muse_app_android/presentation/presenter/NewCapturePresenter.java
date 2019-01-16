@@ -123,4 +123,8 @@ public class NewCapturePresenter {
         }
     }
 
+    public void resetMuse(){
+        repository.resetMuse();
+    }
+
 }

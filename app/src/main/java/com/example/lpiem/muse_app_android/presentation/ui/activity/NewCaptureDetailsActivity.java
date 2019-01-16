@@ -1,5 +1,6 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,10 +13,21 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
+import com.example.lpiem.muse_app_android.presentation.presenter.NewCaptureDetailsPresenter;
+import com.example.lpiem.muse_app_android.presentation.presenter.NewCapturePresenter;
+import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
+import com.example.lpiem.muse_app_android.presentation.ui.view.NewCaptureDetailsView;
 
+import java.lang.ref.WeakReference;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class NewCaptureDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class NewCaptureDetailsActivity extends AppCompatActivity implements View.OnClickListener , NewCaptureDetailsView {
+
+    private NewCaptureDetailsPresenter presenter = new NewCaptureDetailsPresenter(this);
+
+
     ImageView imgStateHappy;
     ImageView imgStateAngry;
     ImageView imgStateSurprise;
@@ -54,6 +66,12 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
         imgStateNeutral.setOnClickListener(this);
         imgStateSad = findViewById(R.id.imgStateSad);
         imgStateSad.setOnClickListener(this);
+
+        presenter.setContextMuseManager(this);
+
+        WeakReference<NewCaptureDetailsPresenter> weakPresenter = new WeakReference<>(presenter);
+
+        presenter.setConnectionListener(new ConnectionListener(null,null, weakPresenter, null));
 
     }
 
@@ -129,6 +147,31 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
         currentStateSelected = stateSelected;
     }
 
+    @Override
+    public void showMuseDisconnect() {
+        presenter.resetMuse();
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Appareil déconnecté");
+        builder1.setCancelable(false);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
+                .setTitle("Appareil déconnecté")
+                .setMessage("Vous allez être redirigé sur la page pour connecter l'appareil")
+                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        dialog.cancel();
+
+                        Intent intent = new Intent(NewCaptureDetailsActivity.this, ConnectDeviceActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+    }
+    
     public boolean isInputNull(){
         if (TextUtils.isEmpty(editName.getText().toString()) || TextUtils.isEmpty(editDescription.getText().toString()) || currentStateSelected == null) {
             return true;
