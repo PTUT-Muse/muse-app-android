@@ -16,7 +16,12 @@ import com.example.lpiem.muse_app_android.data.model.Sensors;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.DataListener;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ListenerMuse;
+import com.opencsv.CSVWriter;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,5 +111,31 @@ public class MuseRepository {
 
     public boolean updateCapture(int id, String nom, String description) {
        return db.updateCapture(id,nom,description);
+    }
+
+    public void export(Capture capture) throws IOException {
+        String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String fileName = "AnalysisData-"+ Long.toString(timestamp.getTime()) + ".csv";
+        String filePath = baseDir + File.separator + fileName;
+        File f = new File(filePath );
+        CSVWriter writer;
+        if(f.exists() && !f.isDirectory()){
+            FileWriter mFileWriter = new FileWriter(filePath , true);
+            writer = new CSVWriter(mFileWriter);
+        }
+        else {
+            writer = new CSVWriter(new FileWriter(filePath));
+        }
+        String[] data = {"capteur 1", "capteur 2", "capteur 3", "capteur 4"};
+
+        writer.writeNext(data);
+
+        for(int i = 0; i<capture.getSensors().getSensor1().size(); i++){
+            String[] dataSensor = {capture.getSensors().getSensor1().get(i).toString(), capture.getSensors().getSensor2().get(i).toString(), capture.getSensors().getSensor3().get(i).toString(), capture.getSensors().getSensor4().get(i).toString()};
+            writer.writeNext(dataSensor);
+        }
+
+        writer.close();
     }
 }

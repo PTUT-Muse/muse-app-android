@@ -1,8 +1,11 @@
 package com.example.lpiem.muse_app_android.presentation.presenter;
 
 import com.example.lpiem.muse_app_android.MuseApplication;
+import com.example.lpiem.muse_app_android.data.model.Capture;
 import com.example.lpiem.muse_app_android.data.repository.MuseRepository;
 import com.example.lpiem.muse_app_android.presentation.ui.view.DetailsCaptureView;
+
+import java.io.IOException;
 
 public class DetailsCapturePresenter {
     private DetailsCaptureView view;
@@ -23,6 +26,10 @@ public class DetailsCapturePresenter {
 
     public boolean updateCapture(int id, String nom, String description) {
         return repository.updateCapture(id,nom,description);
+    }
+
+    public void exportCSV(Capture capture) throws IOException {
+        repository.export(capture);
     }
 
 }
