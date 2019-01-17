@@ -1,6 +1,7 @@
 package com.example.lpiem.muse_app_android.data.model;
 
 public class Capture {
+    private Sensors sensors;
     private int id;
     private int state;
     private String title;
@@ -8,13 +9,14 @@ public class Capture {
     private String description;
     private String date;
 
-    public Capture(int id, int state, String title, String description, String date, String time) {
+    public Capture(int id, int state, String title, String description, String date, String time, Sensors sensors) {
         this.state = state;
         this.title = title;
         this.description = description;
         this.date = date;
         this.time = time;
         this.id = id;
+        this.sensors = sensors;
     }
 
     public int getId() {
@@ -63,5 +65,13 @@ public class Capture {
 
     public String getDescription() {
         return description;
+    }
+
+    public Sensors getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(Sensors sensors) {
+        this.sensors = sensors;
     }
 }

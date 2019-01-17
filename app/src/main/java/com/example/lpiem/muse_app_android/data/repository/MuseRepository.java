@@ -12,6 +12,7 @@ import com.choosemuse.libmuse.MuseDataPacketType;
 import com.choosemuse.libmuse.MuseManagerAndroid;
 import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.example.lpiem.muse_app_android.data.model.Capture;
+import com.example.lpiem.muse_app_android.data.model.Sensors;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.DataListener;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ListenerMuse;
@@ -87,7 +88,7 @@ public class MuseRepository {
 
 
 
-    public boolean insertData(String nom, String description, String date, String temps, int etat, String muse){
+    public boolean insertData(String nom, String description, String date, String temps, int etat, Sensors muse){
        return db.insertData(nom,description,date,temps,etat,muse);
     }
 
