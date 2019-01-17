@@ -118,7 +118,10 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
                 btnStart.setVisibility(View.INVISIBLE);
                 btnStop.setVisibility(View.VISIBLE);
 
+                addCapture.setAlpha(0.5f);
+
                 presenter.setCaptureIsStart(true);
+
                 timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
                 timer.start();
 
@@ -126,6 +129,8 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
             case R.id.btnStop:
                 btnStop.setVisibility(View.INVISIBLE);
                 btnStart.setVisibility(View.VISIBLE);
+
+                addCapture.setAlpha(1f);
 
                 timer.stop();
                 pauseOffset = SystemClock.elapsedRealtime() - timer.getBase();
@@ -142,11 +147,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
 //                break;
             case R.id.fab_addCapture:
 
-                if (presenter.getCaptureIsStart()) {
-                    Toast.makeText(NewCaptureActivity.this, "La capture doit être arrêtée pour pouvoir l'ajouter", Toast.LENGTH_LONG).show();
-                }
-
-                else {
+                if (!presenter.getCaptureIsStart()) {
                     Bundle extras = getIntent().getExtras();
                     String currentDate = DateFormat.getDateInstance().format(new Date());
                     long timeChrono = SystemClock.elapsedRealtime() - timer.getBase();
@@ -159,10 +160,6 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
                         Toast.makeText(NewCaptureActivity.this, "Erreur à l'ajout de la capture", Toast.LENGTH_LONG).show();
                     }
                 }
-                break;
-
-            case R.id.btn3D:
-                // TODO : activer la 3D
                 break;
             default:
                 break;
