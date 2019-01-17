@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.presentation.presenter.NewCaptureDetailsPresenter;
-import com.example.lpiem.muse_app_android.presentation.presenter.NewCapturePresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
 import com.example.lpiem.muse_app_android.presentation.ui.view.NewCaptureDetailsView;
 
@@ -27,7 +26,6 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
 
     private NewCaptureDetailsPresenter presenter = new NewCaptureDetailsPresenter(this);
 
-
     ImageView imgStateHappy;
     ImageView imgStateAngry;
     ImageView imgStateSurprise;
@@ -38,6 +36,7 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
     Button btnCapture;
     EditText editName;
     EditText editDescription;
+
     private ImageView currentStateSelected = null;
     private int stateSelectedId;
 

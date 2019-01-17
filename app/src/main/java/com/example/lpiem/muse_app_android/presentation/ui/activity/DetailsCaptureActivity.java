@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
-import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.example.lpiem.muse_app_android.data.model.Capture;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -24,17 +22,20 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.example.lpiem.muse_app_android.presentation.presenter.DetailsCapturePresenter;
+import com.example.lpiem.muse_app_android.presentation.ui.view.DetailsCaptureView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class DetailCaptureActivity extends AppCompatActivity implements View.OnClickListener, OnChartValueSelectedListener {
+public class DetailsCaptureActivity extends AppCompatActivity implements View.OnClickListener, DetailsCaptureView, OnChartValueSelectedListener {
+    private DetailsCapturePresenter presenter = new DetailsCapturePresenter(this);
+
     Button btnModify;
     ImageView imgState;
     TextView editName;
     TextView editDescription;
     TextView editTime;
-    SQLiteDataBase db;
     Capture capture;
 
 
@@ -43,10 +44,7 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_capture);
 
-        db = new SQLiteDataBase(this);
-        getCapture();
 
-        this.setTitle(capture.getTitle());
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnModify = findViewById(R.id.btnModify);
@@ -56,10 +54,8 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
         editTime = findViewById(R.id.txtChrono);
         imgState = findViewById(R.id.imgState);
 
-        editName.setText(capture.getTitle());
-        editDescription.setText(capture.getDescription());
-        editTime.setText(capture.getTime());
-        setStateImage(capture.getState());
+        int idCapture = getIntent().getIntExtra("id", 0);
+        presenter.getDataByID(idCapture);
     }
 
     private void realtimeChart() {
@@ -116,65 +112,6 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
         rightAxis.setEnabled(false);
     }
 
-    private void getCapture(){
-        int idCapture = getIntent().getIntExtra("id", 0);
-        Log.d("mlk", "id : "+idCapture);
-        Cursor data = db.getDataByID(idCapture);
-
-        while (data.moveToNext()) {
-            int idTemp = data.getInt(0);
-            String nomTemp = data.getString(1);
-            String descriptionTemp = data.getString(2);
-            String dateTemp = data.getString(3);
-            String tempsTemp = data.getString(4);
-            int etatTemp = data.getInt(5);
-            // String museTemp = data.getString(6);
-            capture = new Capture(idTemp,etatTemp, nomTemp, descriptionTemp, dateTemp, tempsTemp);
-            System.out.println("capture : " + capture);
-        }
-
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                overridePendingTransition(0, 0);
-                return true;
-            case R.id.menu_settings:
-                // TODO : lancer intent settings
-                return true;
-            case R.id.menu_export:
-                // TODO export
-                return true;
-            case R.id.menu_delete:
-                confirmDeleteDialog();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void confirmDeleteDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
-                .setTitle("Supprimer la capture ?")
-                .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        db.deleteCapture(capture.getId());
-                        Toast.makeText(DetailCaptureActivity.this, "Capture supprimée", Toast.LENGTH_LONG).show();
-                        DetailCaptureActivity.this.finish();
-                    }
-                })
-                .setNegativeButton("Non",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorBlue));
-        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail_capture, menu);
@@ -186,19 +123,29 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
 
         switch (v.getId()) {
             case R.id.btnModify:
-                boolean isModified = db.updateCapture(capture.getId(), editName.getText().toString(), editDescription.getText().toString());
+                boolean isModified = presenter.updateCapture(capture.getId(), editName.getText().toString(), editDescription.getText().toString());
 
                 if (isModified == true) {
-                    Toast.makeText(DetailCaptureActivity.this, "Capture modifiée", Toast.LENGTH_LONG).show();
+                    Toast.makeText(DetailsCaptureActivity.this, "Capture modifiée", Toast.LENGTH_LONG).show();
                     finish();
                 } else {
-                    Toast.makeText(DetailCaptureActivity.this, "Erreur à la modification de la capture", Toast.LENGTH_LONG).show();
+                    Toast.makeText(DetailsCaptureActivity.this, "Erreur à la modification de la capture", Toast.LENGTH_LONG).show();
                 }
                 break;
             default:
                 break;
         }
 
+    }
+
+    @Override
+    public void showCapture(Capture capture) {
+        this.capture = capture;
+        this.setTitle(capture.getTitle());
+        editName.setText(capture.getTitle());
+        editDescription.setText(capture.getDescription());
+        editTime.setText(capture.getTime());
+        setStateImage(capture.getState());
     }
 
     private void setStateImage(int stateId){
@@ -232,6 +179,48 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onNothingSelected() {
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(0, 0);
+                return true;
+            case R.id.menu_settings:
+                // TODO : lancer intent settings
+                return true;
+            case R.id.menu_export:
+                // TODO export
+                return true;
+            case R.id.menu_delete:
+                confirmDeleteDialog();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+    private void confirmDeleteDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
+                .setTitle("Supprimer la capture ?")
+                .setPositiveButton("Oui",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        boolean isDelete = presenter.deleteCapture(capture.getId());
+                        if(isDelete == true){
+                            Toast.makeText(DetailsCaptureActivity.this, "Capture supprimée", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(DetailsCaptureActivity.this, "Erreur lors de la suppression", Toast.LENGTH_LONG).show();
+                        }
+                        DetailsCaptureActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("Non",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+        alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
     }
 }
