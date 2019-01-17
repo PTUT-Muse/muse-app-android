@@ -3,6 +3,7 @@ package com.example.lpiem.muse_app_android.presentation.ui.activity;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -30,6 +31,11 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.example.lpiem.muse_app_android.presentation.presenter.DetailsCapturePresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.view.DetailsCaptureView;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.opencsv.CSVWriter;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -282,7 +288,11 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
                 overridePendingTransition(0, 0);
                 return true;
             case R.id.menu_export:
-                // TODO export
+                try {
+                    presenter.exportCSV(capture);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return true;
             case R.id.menu_delete:
                 confirmDeleteDialog();
@@ -315,4 +325,6 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
         alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorBlue));
         alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
     }
+
+
 }
