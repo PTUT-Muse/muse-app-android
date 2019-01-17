@@ -54,10 +54,8 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
         editTime = findViewById(R.id.txtChrono);
         imgState = findViewById(R.id.imgState);
 
-        editName.setText(capture.getTitle());
-        editDescription.setText(capture.getDescription());
-        editTime.setText(capture.getTime());
-        setStateImage(capture.getState());
+        int idCapture = getIntent().getIntExtra("id", 0);
+        presenter.getDataByID(idCapture);
     }
 
     private void realtimeChart() {
@@ -112,13 +110,6 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
 
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false);
-    }
-
-    private void getCapture(){
-        int idCapture = getIntent().getIntExtra("id", 0);
-
-
-        presenter.getDataByID(idCapture);
     }
 
     @Override
