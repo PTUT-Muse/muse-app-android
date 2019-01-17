@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
+import com.example.lpiem.muse_app_android.data.model.Sensors;
 import com.example.lpiem.muse_app_android.presentation.presenter.NewCapturePresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.DataListener;
@@ -40,7 +41,9 @@ import java.lang.ref.WeakReference;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class NewCaptureActivity extends AppCompatActivity implements View.OnClickListener, NewCaptureView, OnChartValueSelectedListener {
 
@@ -65,6 +68,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
     private Chronometer timer;
     private long pauseOffset;
     private boolean running;
+    Sensors sensors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +94,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         pointerSpeedometer2 = findViewById(R.id.monitor2);
         pointerSpeedometer3 = findViewById(R.id.monitor3);
         pointerSpeedometer4 = findViewById(R.id.monitor4);
-
+        sensors = new Sensors();
 
         realtimeChart();
         speedometer();
@@ -181,6 +185,11 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         Log.d("mlk", "test eegBuffer 2 : "+String.format("%6.2f", eegBuffer[1]));
         Log.d("mlk", "test eegBuffer 3 : "+String.format("%6.2f", eegBuffer[2]));
         Log.d("mlk", "test eegBuffer 4 : "+String.format("%6.2f", eegBuffer[3]));
+
+        sensors.pushSensor1(eegBuffer[0]);
+        sensors.pushSensor2(eegBuffer[1]);
+        sensors.pushSensor3(eegBuffer[2]);
+        sensors.pushSensor4(eegBuffer[3]);
 
         LineData data = chart.getData();
 
