@@ -79,9 +79,6 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.menu_settings:
-                // lancer intent settings
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
