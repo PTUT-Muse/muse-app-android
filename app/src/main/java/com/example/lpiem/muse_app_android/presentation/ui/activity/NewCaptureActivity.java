@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.os.SystemClock;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
+import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.example.lpiem.muse_app_android.presentation.presenter.NewCapturePresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.DataListener;
@@ -32,19 +32,19 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
+import java.text.DateFormat;
+import java.util.Date;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import java.text.DateFormat;
-import java.util.Date;
 
 public class NewCaptureActivity extends AppCompatActivity implements View.OnClickListener, NewCaptureView, OnChartValueSelectedListener {
 
     private NewCapturePresenter presenter = new NewCapturePresenter(this);
+
     SQLiteDataBase db;
     Button btnDetails;
     ImageButton btnStart;
@@ -53,9 +53,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
     FloatingActionButton addCapture;
 
     private DataListener dataListener;
-
     private final Handler handler = new Handler();
-
     private LineChart chart;
 
     private PointerSpeedometer pointerSpeedometer1;
@@ -64,7 +62,6 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
     private PointerSpeedometer pointerSpeedometer4;
     private Chronometer timer;
     private long pauseOffset;
-    private boolean running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +117,6 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -158,7 +154,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
                 Bundle extras = getIntent().getExtras();
                 String currentDate = DateFormat.getDateInstance().format(new Date());
                 long timeChrono = SystemClock.elapsedRealtime() - timer.getBase();
-                boolean isInserted = db.insertData(extras.getString("nom"), extras.getString("description"), currentDate, timer.getText().toString(), extras.getInt("idEtat"),"donnees");
+                boolean isInserted = presenter.insertData(extras.getString("nom"), extras.getString("description"), currentDate, timer.getText().toString(), extras.getInt("idEtat"),"donnees");
                 if (isInserted == true) {
                     Toast.makeText(NewCaptureActivity.this, "Capture ajoutée", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(NewCaptureActivity.this, CaptureListActivity.class);

@@ -11,10 +11,9 @@ import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionLis
 import com.example.lpiem.muse_app_android.presentation.ui.view.CaptureListView;
 
 public class CaptureListPresenter {
+
     private CaptureListView view;
-
     private MuseRepository repository = MuseApplication.getInstance().getRepository();
-
 
     public CaptureListPresenter(CaptureListView view){
         this.view = view;
@@ -42,6 +41,10 @@ public class CaptureListPresenter {
 
     public boolean museIsInstantiate(){
         return repository.museIsInstantiate();
+    }
+
+    public void getAllData() {
+        view.updateList(repository.getAllData());
     }
 
 }

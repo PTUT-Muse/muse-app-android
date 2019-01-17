@@ -1,8 +1,6 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
-import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.example.lpiem.muse_app_android.data.model.Capture;
 import com.example.lpiem.muse_app_android.presentation.presenter.CaptureListPresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.adapter.CaptureListAdapter;
@@ -22,7 +19,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +28,6 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
 
     private RecyclerView captureRecyclerView;
     private CaptureListAdapter captureListAdapter;
-    SQLiteDataBase db;
 
     private List<Capture> captureList = new ArrayList<>();
 
@@ -50,8 +45,6 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
 
             presenter.setConnectionListener(new ConnectionListener(null,null,null , weakPresenter));
         }
-        db = new SQLiteDataBase(this);
-        getDonneesCapture();
 
         captureRecyclerView = findViewById(R.id.capture_list_rv);
         FloatingActionButton fabAddCapture = findViewById(R.id.fab_addCapture);
@@ -60,8 +53,7 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
         captureListAdapter = new CaptureListAdapter(captureList, new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CaptureListActivity.this, DetailCaptureActivity.class);
-                Log.d("mlk", "id passé :"+captureList.get(position).getId());
+                Intent intent = new Intent(CaptureListActivity.this, DetailsCaptureActivity.class);
                 intent.putExtra("id", captureList.get(position).getId());
                 startActivity(intent);
             }
@@ -83,16 +75,15 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
         });
 
         captureRecyclerView.setAdapter(captureListAdapter);
-        //presenter.getAllCaptures();
+
+        presenter.getAllData();
     }
 
     @Override
     public void onResume(){
         super.onResume();
         captureList.clear();
-        db = new SQLiteDataBase(this);
-        getDonneesCapture();
-        captureListAdapter.notifyDataSetChanged();
+        presenter.getAllData();
     }
 
     @Override
@@ -103,33 +94,11 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
     }
 
     @Override
-    public void showError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void showMuseDisconnect() {
         presenter.resetMuse();
         Toast toast = Toast.makeText(this, "Appareil deconnecté", Toast.LENGTH_SHORT);
         toast.show();
 
     }
-      
-    private void getDonneesCapture() {
-        Cursor data = db.getAllData();
-        Log.d("mlk", "data : "+data.toString());
 
-        while (data.moveToNext()) {
-            int idTemp = data.getInt(0);
-            String nomTemp = data.getString(1);
-            String descriptionTemp = data.getString(2);
-            String dateTemp = data.getString(3);
-            String tempsTemp = data.getString(4);
-            int etatTemp = data.getInt(5);
-            // String museTemp = data.getString(6);
-            Capture captureTemp = new Capture(idTemp,etatTemp, nomTemp, descriptionTemp, dateTemp, tempsTemp);
-            captureList.add(captureTemp);
-            System.out.println("captureTemp : " + captureTemp);
-        }
-    }
 }

@@ -12,11 +12,7 @@ import com.example.lpiem.muse_app_android.MuseApplication;
 import com.example.lpiem.muse_app_android.data.repository.MuseRepository;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.DataListener;
-import com.example.lpiem.muse_app_android.presentation.ui.listener.ListenerMuse;
-import com.example.lpiem.muse_app_android.presentation.ui.view.ConnectDeviceView;
 import com.example.lpiem.muse_app_android.presentation.ui.view.NewCaptureView;
-
-import java.util.ArrayList;
 
 public class NewCapturePresenter {
 
@@ -31,32 +27,13 @@ public class NewCapturePresenter {
 
     private Boolean captureIsStart = false;
 
-
     public NewCapturePresenter(NewCaptureView view){
         this.view = view;
     }
 
-
     public void setContextMuseManager(Context view){
         this.repository.setContextMuseManager(view);
     }
-
-    public void setMuseListener(ListenerMuse museListener){
-        this.repository.setMuseListener(museListener);
-    }
-
-    public void refreshListeningDevice(){
-        this.repository.refreshListeningDevice();
-    }
-
-    public void stopListeningDevice(){
-        this.repository.stopListeningDevice();
-    }
-
-    public ArrayList<Muse> getDeviceAvaibles(){
-        return this.repository.getDeviceAvaibles();
-    }
-
 
     public void setDataListenerMuse(DataListener dataListener) {
         this.repository.setDataListenerMuse(dataListener);
@@ -114,7 +91,6 @@ public class NewCapturePresenter {
         handler.removeCallbacks(tickUi);
     }
 
-
     public void receiveMuseConnectionPacket(final MuseConnectionPacket p, final Muse muse) {
         final ConnectionState current = p.getCurrentConnectionState();
         if(current == ConnectionState.DISCONNECTED){
@@ -125,6 +101,10 @@ public class NewCapturePresenter {
 
     public void resetMuse(){
         repository.resetMuse();
+    }
+
+    public boolean insertData(String nom, String description, String date, String temps, int etat, String muse){
+        return repository.insertData(nom,description,date,temps,etat,muse);
     }
 
 }

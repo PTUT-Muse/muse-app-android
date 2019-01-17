@@ -173,7 +173,6 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
     }
 
 
-
 }
 
 

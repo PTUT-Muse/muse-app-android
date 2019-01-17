@@ -19,7 +19,7 @@ public class MuseApplication extends Application {
         super.onCreate();
         MultiDex.install(this);
         app = this;
-        repository = new MuseRepository();
+        repository = new MuseRepository(this);
     }
 
     public MuseRepository getRepository() {
