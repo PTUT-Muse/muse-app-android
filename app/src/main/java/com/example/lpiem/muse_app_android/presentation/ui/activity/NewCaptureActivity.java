@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
+import com.example.lpiem.muse_app_android.data.model.MyMarkerView;
+import com.example.lpiem.muse_app_android.data.model.Sensors;
 import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.example.lpiem.muse_app_android.presentation.presenter.NewCapturePresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
@@ -40,6 +42,10 @@ import java.util.Date;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class NewCaptureActivity extends AppCompatActivity implements View.OnClickListener, NewCaptureView, OnChartValueSelectedListener {
 
@@ -49,6 +55,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
     Button btnDetails;
     ImageButton btnStart;
     ImageButton btnStop;
+    ImageButton btnReset;
     ImageButton btn3d;
     FloatingActionButton addCapture;
 
@@ -62,6 +69,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
     private PointerSpeedometer pointerSpeedometer4;
     private Chronometer timer;
     private long pauseOffset;
+    Sensors sensors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +85,8 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         btnDetails.setOnClickListener(this);
         btnStart = findViewById(R.id.btnStart);
         btnStart.setOnClickListener(this);
+        btnReset = findViewById(R.id.btnReset);
+        btnReset.setOnClickListener(this);
         btnStop = findViewById(R.id.btnStop);
         btnStop.setOnClickListener(this);
         addCapture = findViewById(R.id.fab_addCapture);
@@ -87,7 +97,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         pointerSpeedometer2 = findViewById(R.id.monitor2);
         pointerSpeedometer3 = findViewById(R.id.monitor3);
         pointerSpeedometer4 = findViewById(R.id.monitor4);
-
+        sensors = new Sensors();
 
         realtimeChart();
         speedometer();
@@ -122,6 +132,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
                 overridePendingTransition(0, 0);
                 break;
             case R.id.btnStart:
+                btnReset.setVisibility(View.INVISIBLE);
                 btnStart.setVisibility(View.INVISIBLE);
                 btnStop.setVisibility(View.VISIBLE);
 
@@ -134,6 +145,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
 
                 break;
             case R.id.btnStop:
+                btnReset.setVisibility(View.VISIBLE);
                 btnStop.setVisibility(View.INVISIBLE);
                 btnStart.setVisibility(View.VISIBLE);
 
@@ -145,20 +157,32 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
                 presenter.setCaptureIsStart(false);
                 break;
 
-            // TODO : faire icône reset
-            // case R.id.btnReset:
-//            btnStop.setVisibility(View.INVISIBLE);
-//            btnStart.setVisibility(View.VISIBLE);
-//                timer.setBase(SystemClock.elapsedRealtime());
-//                pauseOffset = 0;
-//                break;
+             case R.id.btnReset:
+                btnStop.setVisibility(View.INVISIBLE);
+                btnStart.setVisibility(View.VISIBLE);
+                timer.setBase(SystemClock.elapsedRealtime());
+                pauseOffset = 0;
+                sensors.setSensor1(new ArrayList<Double>());
+                sensors.setSensor2(new ArrayList<Double>());
+                sensors.setSensor3(new ArrayList<Double>());
+                sensors.setSensor4(new ArrayList<Double>());
+                LineData data = new LineData();
+                data.setValueTextColor(Color.WHITE);
+                chart.setData(data);
+                chart.invalidate();
+                pointerSpeedometer1.speedTo(0f);
+                pointerSpeedometer2.speedTo(0f);
+                pointerSpeedometer3.speedTo(0f);
+                pointerSpeedometer4.speedTo(0f);
+                break;
+
             case R.id.fab_addCapture:
 
                 if (!presenter.getCaptureIsStart()) {
                     Bundle extras = getIntent().getExtras();
                     String currentDate = DateFormat.getDateInstance().format(new Date());
                     long timeChrono = SystemClock.elapsedRealtime() - timer.getBase();
-                    boolean isInserted = presenter.insertData(extras.getString("nom"), extras.getString("description"), currentDate, timer.getText().toString(), extras.getInt("idEtat"),"donnees");
+                    boolean isInserted = presenter.insertData(extras.getString("nom"), extras.getString("description"), currentDate, timer.getText().toString(), extras.getInt("idEtat"),sensors);
                     if (isInserted == true) {
                         Toast.makeText(NewCaptureActivity.this, "Capture ajoutée", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(NewCaptureActivity.this, CaptureListActivity.class);
@@ -179,6 +203,11 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         Log.d("mlk", "test eegBuffer 2 : "+String.format("%6.2f", eegBuffer[1]));
         Log.d("mlk", "test eegBuffer 3 : "+String.format("%6.2f", eegBuffer[2]));
         Log.d("mlk", "test eegBuffer 4 : "+String.format("%6.2f", eegBuffer[3]));
+
+        sensors.pushSensor1(eegBuffer[0]);
+        sensors.pushSensor2(eegBuffer[1]);
+        sensors.pushSensor3(eegBuffer[2]);
+        sensors.pushSensor4(eegBuffer[3]);
 
         LineData data = chart.getData();
 
@@ -261,17 +290,17 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
 
     private void speedometer() {
         pointerSpeedometer1.setUnit("");
-        pointerSpeedometer1.setMaxSpeed(1600f);
-        pointerSpeedometer1.setTicks(1600f);
+        pointerSpeedometer1.setMaxSpeed(1700f);
+        pointerSpeedometer1.setTicks(1700f);
         pointerSpeedometer2.setUnit("");
-        pointerSpeedometer2.setMaxSpeed(1600f);
-        pointerSpeedometer2.setTicks(1600f);
+        pointerSpeedometer2.setMaxSpeed(1700f);
+        pointerSpeedometer2.setTicks(1700f);
         pointerSpeedometer3.setUnit("");
-        pointerSpeedometer3.setMaxSpeed(1600f);
-        pointerSpeedometer3.setTicks(1600f);
+        pointerSpeedometer3.setMaxSpeed(1700f);
+        pointerSpeedometer3.setTicks(1700f);
         pointerSpeedometer4.setUnit("");
-        pointerSpeedometer4.setMaxSpeed(1600f);
-        pointerSpeedometer4.setTicks(1600f);
+        pointerSpeedometer4.setMaxSpeed(1700f);
+        pointerSpeedometer4.setTicks(1700f);
     }
 
     private void realtimeChart() {
@@ -320,12 +349,19 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setAxisMaximum(1600f);
+        leftAxis.setAxisMaximum(1700f);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setDrawGridLines(true);
 
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false);
+
+        // create marker to display box when values are selected
+        MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
+
+        // Set the marker to the chart
+        mv.setChartView(chart);
+        chart.setMarker(mv);
     }
 
     private LineDataSet createSet(int color, String label) {

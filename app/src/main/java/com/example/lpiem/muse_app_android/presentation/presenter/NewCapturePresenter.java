@@ -9,6 +9,7 @@ import com.choosemuse.libmuse.Muse;
 import com.choosemuse.libmuse.MuseConnectionPacket;
 import com.choosemuse.libmuse.MuseDataPacket;
 import com.example.lpiem.muse_app_android.MuseApplication;
+import com.example.lpiem.muse_app_android.data.model.Sensors;
 import com.example.lpiem.muse_app_android.data.repository.MuseRepository;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.DataListener;
@@ -107,7 +108,7 @@ public class NewCapturePresenter {
         repository.resetMuse();
     }
 
-    public boolean insertData(String nom, String description, String date, String temps, int etat, String muse){
+    public boolean insertData(String nom, String description, String date, String temps, int etat, Sensors muse){
         return repository.insertData(nom,description,date,temps,etat,muse);
     }
 

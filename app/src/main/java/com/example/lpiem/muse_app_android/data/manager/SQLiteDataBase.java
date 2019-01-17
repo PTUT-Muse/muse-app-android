@@ -5,9 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.data.model.Capture;
+import com.example.lpiem.muse_app_android.data.model.Sensors;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -36,15 +39,16 @@ public class SQLiteDataBase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String nom, String description, String date, String temps, int etat, String muse){
+    public boolean insertData(String nom, String description, String date, String temps, int etat, Sensors muse){
         SQLiteDatabase db = this.getWritableDatabase();
+        Gson gson = new Gson();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, nom);
         contentValues.put(COL_3, description);
         contentValues.put(COL_4, date);
         contentValues.put(COL_5, temps);
         contentValues.put(COL_6, etat);
-        contentValues.put(COL_7, muse);
+        contentValues.put(COL_7, gson.toJson(muse));
         long result = db.insert(TABLE_NAME, null, contentValues);
 
         if (result == -1)
@@ -66,7 +70,7 @@ public class SQLiteDataBase extends SQLiteOpenHelper {
             String timeTemp = result.getString(4);
             int stateTemp = result.getInt(5);
             // String museTemp = data.getString(6);
-            Capture captureTemp = new Capture(idTemp,stateTemp, titleTemp, descriptionTemp, dateTemp, timeTemp);
+            Capture captureTemp = new Capture(idTemp,stateTemp, titleTemp, descriptionTemp, dateTemp, timeTemp, null);
             captureList.add(captureTemp);
             System.out.println("captureTemp : " + captureTemp);
         }
@@ -86,8 +90,11 @@ public class SQLiteDataBase extends SQLiteOpenHelper {
             String dateTemp = result.getString(3);
             String timeTemp = result.getString(4);
             int stateTemp = result.getInt(5);
-            // String museTemp = data.getString(6);
-            capture = new Capture(idTemp,stateTemp, titleTemp, descriptionTemp, dateTemp, timeTemp);
+            String museTemp = result.getString(6);
+            Log.d("gson", museTemp);
+            Gson gson = new Gson();
+            Sensors sensors = gson.fromJson(museTemp, Sensors.class);
+            capture = new Capture(idTemp,stateTemp, titleTemp, descriptionTemp, dateTemp, timeTemp, sensors);
             System.out.println("capture : " + capture);
         }
         return capture;
