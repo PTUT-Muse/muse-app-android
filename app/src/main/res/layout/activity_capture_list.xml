@@ -8,32 +8,20 @@
     tools:context=".presentation.ui.activity.CaptureListActivity"
     tools:layout_editor_absoluteY="25dp">
 
-    <ImageButton
-        android:id="@+id/icSettings"
-        android:layout_width="0dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="243dp"
-        android:scaleType="fitCenter"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/ic_settings"
-        app:layout_constraintEnd_toStartOf="@+id/imgLogo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_settings_tool"
-        tools:ignore="VectorDrawableCompat" />
-
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="434dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="700dp"
         android:contentDescription="@string/logo_muse"
         app:layout_constraintBottom_toTopOf="@+id/txtMuse"
-        app:layout_constraintEnd_toStartOf="@+id/btnTriAlpha"
-        app:layout_constraintStart_toEndOf="@+id/icSettings"
-        app:layout_constraintTop_toTopOf="@+id/icSettings"
+        app:layout_constraintEnd_toStartOf="@+id/btnTriDate"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_muse"
         tools:ignore="VectorDrawableCompat" />
 
@@ -62,30 +50,16 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnTriAlpha"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginEnd="15dp"
-        android:background="@color/colorAccent"
-        android:text="@string/tri_croissant"
-        android:textColor="@color/colorText"
-        app:cornerRadius="18dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnTriDate"
-        app:layout_constraintEnd_toStartOf="@+id/btnTriDate"
-        app:layout_constraintStart_toEndOf="@+id/imgLogo" />
-
-    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnTriDate"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="52dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="88dp"
         android:text="@string/tri_croissant"
         android:textColor="@color/colorAccent"
         app:backgroundTint="@color/colorBlue"
         app:cornerRadius="18dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnTriAlpha"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -113,6 +87,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add"
         tools:ignore="VectorDrawableCompat" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="609dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/capture_list_date_filter"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/btnTriDate"
+        app:layout_constraintStart_toEndOf="@+id/imgLogo"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

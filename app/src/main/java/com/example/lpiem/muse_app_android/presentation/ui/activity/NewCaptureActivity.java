@@ -120,9 +120,6 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 overridePendingTransition(0, 0);
                 return true;
-            case R.id.menu_settings:
-                // lancer intent settings
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -139,7 +136,10 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
                 btnStart.setVisibility(View.INVISIBLE);
                 btnStop.setVisibility(View.VISIBLE);
 
+                addCapture.setAlpha(0.5f);
+
                 presenter.setCaptureIsStart(true);
+
                 timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
                 timer.start();
 
@@ -148,6 +148,8 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
                 btnReset.setVisibility(View.VISIBLE);
                 btnStop.setVisibility(View.INVISIBLE);
                 btnStart.setVisibility(View.VISIBLE);
+
+                addCapture.setAlpha(1f);
 
                 timer.stop();
                 pauseOffset = SystemClock.elapsedRealtime() - timer.getBase();
@@ -175,19 +177,20 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
                 break;
 
             case R.id.fab_addCapture:
-                Bundle extras = getIntent().getExtras();
-                String currentDate = DateFormat.getDateInstance().format(new Date());
-                boolean isInserted = presenter.insertData(extras.getString("nom"), extras.getString("description"), currentDate, timer.getText().toString(), extras.getInt("idEtat"),sensors);
-                if (isInserted == true) {
-                    Toast.makeText(NewCaptureActivity.this, "Capture ajoutée", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(NewCaptureActivity.this, CaptureListActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(NewCaptureActivity.this, "Erreur à l'ajout de la capture", Toast.LENGTH_LONG).show();
+
+                if (!presenter.getCaptureIsStart()) {
+                    Bundle extras = getIntent().getExtras();
+                    String currentDate = DateFormat.getDateInstance().format(new Date());
+                    long timeChrono = SystemClock.elapsedRealtime() - timer.getBase();
+                    boolean isInserted = presenter.insertData(extras.getString("nom"), extras.getString("description"), currentDate, timer.getText().toString(), extras.getInt("idEtat"),sensors);
+                    if (isInserted == true) {
+                        Toast.makeText(NewCaptureActivity.this, "Capture ajoutée", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(NewCaptureActivity.this, CaptureListActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(NewCaptureActivity.this, "Erreur à l'ajout de la capture", Toast.LENGTH_LONG).show();
+                    }
                 }
-                break;
-            case R.id.btn3D:
-                // TODO : activer la 3D
                 break;
             default:
                 break;

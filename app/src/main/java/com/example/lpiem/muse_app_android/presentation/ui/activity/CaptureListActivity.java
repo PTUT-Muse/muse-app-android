@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.lpiem.muse_app_android.R;
@@ -16,14 +17,19 @@ import com.example.lpiem.muse_app_android.presentation.ui.view.CaptureListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CaptureListActivity extends AppCompatActivity implements CaptureListView {
+public class CaptureListActivity extends AppCompatActivity implements CaptureListView, View.OnClickListener {
     private CaptureListPresenter presenter = new CaptureListPresenter(this);
 
     private RecyclerView captureRecyclerView;
@@ -31,11 +37,17 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
 
     private List<Capture> captureList = new ArrayList<>();
 
+    private Button dateFilter;
+    private boolean isIncreased = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_list);
+
+
+        dateFilter = findViewById(R.id.btnTriDate);
+        dateFilter.setOnClickListener(this);
 
 
         if(presenter.museIsInstantiate()) {
@@ -88,8 +100,10 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
 
     @Override
     public void updateList(List<Capture> listCapture) {
+        List<Capture> listCaptureTemp = new ArrayList<>();
+        listCaptureTemp.addAll(listCapture);
         captureList.clear();
-        captureList = listCapture;
+        captureList = listCaptureTemp;
         captureListAdapter.updateList(captureList);
     }
 
@@ -101,4 +115,21 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnTriDate:
+                List<Capture> listCap = captureList;
+                presenter.filterDate(listCap,isIncreased);
+                isIncreased = !isIncreased;
+                if(isIncreased){
+                    dateFilter.setText("DECROISSANT");
+
+                } else {
+                    dateFilter.setText("CROISSANT");
+
+                }
+                break;
+        }
+    }
 }

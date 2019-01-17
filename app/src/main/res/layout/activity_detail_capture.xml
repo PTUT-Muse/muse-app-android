@@ -72,8 +72,6 @@
         android:maxHeight="60dp"
         android:textColorHint="@color/colorPlaceHolderInput"
         android:theme="@style/TextInputLayoutAppearance"
-        app:counterEnabled="true"
-        app:counterMaxLength="150"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/txtLayoutNom"
         app:layout_constraintHorizontal_bias="1.0"
