@@ -58,7 +58,10 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
 
     private LineChart chart;
 
-    private PointerSpeedometer pointerSpeedometer;
+    private PointerSpeedometer pointerSpeedometer1;
+    private PointerSpeedometer pointerSpeedometer2;
+    private PointerSpeedometer pointerSpeedometer3;
+    private PointerSpeedometer pointerSpeedometer4;
     private Chronometer timer;
     private long pauseOffset;
     private boolean running;
@@ -83,7 +86,10 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         addCapture.setOnClickListener(this);
         btn3d = findViewById(R.id.btn3D);
         btn3d.setOnClickListener(this);
-        pointerSpeedometer = findViewById(R.id.monitor1);
+        pointerSpeedometer1 = findViewById(R.id.monitor1);
+        pointerSpeedometer2 = findViewById(R.id.monitor2);
+        pointerSpeedometer3 = findViewById(R.id.monitor3);
+        pointerSpeedometer4 = findViewById(R.id.monitor4);
 
 
         realtimeChart();
@@ -218,7 +224,10 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
             // AxisDependency.LEFT);
         }
 
-        pointerSpeedometer.speedTo((float) eegBuffer[0], 0);
+        pointerSpeedometer1.speedTo((float) eegBuffer[0], 0);
+        pointerSpeedometer2.speedTo((float) eegBuffer[1], 0);
+        pointerSpeedometer3.speedTo((float) eegBuffer[2], 0);
+        pointerSpeedometer4.speedTo((float) eegBuffer[3], 0);
     }
 
     @Override
@@ -253,9 +262,18 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void speedometer() {
-        pointerSpeedometer.setUnit("");
-        pointerSpeedometer.setMaxSpeed(1600f);
-        pointerSpeedometer.setTicks(1600f);
+        pointerSpeedometer1.setUnit("");
+        pointerSpeedometer1.setMaxSpeed(1600f);
+        pointerSpeedometer1.setTicks(1600f);
+        pointerSpeedometer2.setUnit("");
+        pointerSpeedometer2.setMaxSpeed(1600f);
+        pointerSpeedometer2.setTicks(1600f);
+        pointerSpeedometer3.setUnit("");
+        pointerSpeedometer3.setMaxSpeed(1600f);
+        pointerSpeedometer3.setTicks(1600f);
+        pointerSpeedometer4.setUnit("");
+        pointerSpeedometer4.setMaxSpeed(1600f);
+        pointerSpeedometer4.setTicks(1600f);
     }
 
     private void realtimeChart() {

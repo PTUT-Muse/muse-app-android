@@ -2,6 +2,7 @@ package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,11 +16,19 @@ import android.widget.Toast;
 import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.example.lpiem.muse_app_android.data.model.Capture;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class DetailCaptureActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailCaptureActivity extends AppCompatActivity implements View.OnClickListener, OnChartValueSelectedListener {
     Button btnModify;
     ImageView imgState;
     TextView editName;
@@ -51,6 +60,60 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
         editDescription.setText(capture.getDescription());
         editTime.setText(capture.getTime());
         setStateImage(capture.getState());
+    }
+
+    private void realtimeChart() {
+        LineChart chart = findViewById(R.id.graph);
+        chart.setOnChartValueSelectedListener(this);
+
+        // enable description text
+        chart.getDescription().setEnabled(true);
+
+        // enable touch gestures
+        chart.setTouchEnabled(true);
+
+        // enable scaling and dragging
+        chart.setDragEnabled(true);
+        chart.setScaleEnabled(true);
+        chart.setDrawGridBackground(false);
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        chart.setPinchZoom(true);
+
+        // set an alternative background color
+        chart.setBackgroundColor(Color.TRANSPARENT);
+
+        LineData data = new LineData();
+        data.setValueTextColor(Color.WHITE);
+
+        // add empty data
+        chart.setData(data);
+
+        // get the legend (only possible after setting data)
+        Legend l = chart.getLegend();
+
+        // modify the legend ...
+        l.setForm(Legend.LegendForm.LINE);
+        l.setTextColor(Color.WHITE);
+        l.setTextSize(35f);
+        l.setFormSize(35f);
+        l.setXEntrySpace(20f);
+
+        XAxis xl = chart.getXAxis();
+        xl.setTextColor(Color.WHITE);
+        xl.setDrawGridLines(false);
+        xl.setAvoidFirstLastClipping(true);
+        xl.setEnabled(true);
+        xl.removeAllLimitLines();
+
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setTextColor(Color.WHITE);
+        leftAxis.setAxisMaximum(1600f);
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setDrawGridLines(true);
+
+        YAxis rightAxis = chart.getAxisRight();
+        rightAxis.setEnabled(false);
     }
 
     private void getCapture(){
@@ -159,6 +222,16 @@ public class DetailCaptureActivity extends AppCompatActivity implements View.OnC
                 imgState.setImageResource(R.mipmap.triste);
                 break;
         }
+
+    }
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+
+    }
+
+    @Override
+    public void onNothingSelected() {
 
     }
 }
