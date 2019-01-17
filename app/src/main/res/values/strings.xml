@@ -20,4 +20,5 @@
     <string name="connect_device_title_bar"> Connecter l\'appareil</string>
     <string name="db_name">Captures.db</string>
     <string name="champs_obligatoires">Champs obligatoires *</string>
+    <string name="capture_list_date_filter">DATE :</string>
 </resources>
