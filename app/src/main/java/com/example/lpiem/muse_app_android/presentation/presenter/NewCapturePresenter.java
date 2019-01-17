@@ -61,6 +61,10 @@ public class NewCapturePresenter {
         this.captureIsStart = isStart;
     }
 
+    public Boolean getCaptureIsStart() {
+        return captureIsStart;
+    }
+
     private void getEegChannelValues(double[] buffer, MuseDataPacket p) {
         buffer[0] = p.getEegChannelValue(Eeg.EEG1);
         buffer[1] = p.getEegChannelValue(Eeg.EEG2);

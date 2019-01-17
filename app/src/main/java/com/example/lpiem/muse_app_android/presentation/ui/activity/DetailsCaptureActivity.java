@@ -2,6 +2,7 @@ package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,15 +62,21 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
 
         switch (v.getId()) {
             case R.id.btnModify:
-                boolean isModified = presenter.updateCapture(capture.getId(), editName.getText().toString(), editDescription.getText().toString());
 
-                if (isModified == true) {
-                    Toast.makeText(DetailsCaptureActivity.this, "Capture modifiée", Toast.LENGTH_LONG).show();
-                    finish();
+                if (isInputNull()) {
+                    Toast.makeText(DetailsCaptureActivity.this, "Tous les champs ne sont pas remplis", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(DetailsCaptureActivity.this, "Erreur à la modification de la capture", Toast.LENGTH_LONG).show();
+                    boolean isModified = presenter.updateCapture(capture.getId(), editName.getText().toString(), editDescription.getText().toString());
+
+                    if (isModified == true) {
+                        Toast.makeText(DetailsCaptureActivity.this, "Capture modifiée", Toast.LENGTH_LONG).show();
+                        finish();
+                    } else {
+                        Toast.makeText(DetailsCaptureActivity.this, "Erreur à la modification de la capture", Toast.LENGTH_LONG).show();
+                    }
                 }
                 break;
+
             default:
                 break;
         }
@@ -110,14 +117,19 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
 
     }
 
+    public boolean isInputNull(){
+        if (TextUtils.isEmpty(editName.getText().toString()) || TextUtils.isEmpty(editDescription.getText().toString())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 overridePendingTransition(0, 0);
-                return true;
-            case R.id.menu_settings:
-                // TODO : lancer intent settings
                 return true;
             case R.id.menu_export:
                 // TODO export

@@ -8,32 +8,18 @@
     tools:context=".presentation.ui.activity.CaptureListActivity"
     tools:layout_editor_absoluteY="25dp">
 
-    <ImageButton
-        android:id="@+id/icSettings"
-        android:layout_width="0dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="243dp"
-        android:scaleType="fitCenter"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/ic_settings"
-        app:layout_constraintEnd_toStartOf="@+id/imgLogo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_settings_tool"
-        tools:ignore="VectorDrawableCompat" />
-
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="434dp"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="404dp"
         android:contentDescription="@string/logo_muse"
         app:layout_constraintBottom_toTopOf="@+id/txtMuse"
         app:layout_constraintEnd_toStartOf="@+id/btnTriAlpha"
-        app:layout_constraintStart_toEndOf="@+id/icSettings"
-        app:layout_constraintTop_toTopOf="@+id/icSettings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_muse"
         tools:ignore="VectorDrawableCompat" />
 

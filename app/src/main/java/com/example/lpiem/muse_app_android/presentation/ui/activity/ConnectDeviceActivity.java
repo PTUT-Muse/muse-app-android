@@ -93,9 +93,6 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
                 finish();
                 overridePendingTransition(0, 0);
                 return true;
-            case R.id.menu_settings:
-                // lancer intent settings
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
