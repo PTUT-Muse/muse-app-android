@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.lpiem.muse_app_android.R;
+import com.example.lpiem.muse_app_android.data.model.Capture;
+
+import java.util.ArrayList;
 
 public class SQLiteDataBase extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "captures_table";
@@ -50,23 +53,56 @@ public class SQLiteDataBase extends SQLiteOpenHelper {
             return true;
     }
 
-    public Cursor getAllData(){
+    public ArrayList<Capture> getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<Capture> captureList = new ArrayList<>();
         Cursor result = db.rawQuery("select * from "+TABLE_NAME, null);
-        return result;
+
+        while (result.moveToNext()) {
+            int idTemp = result.getInt(0);
+            String titleTemp = result.getString(1);
+            String descriptionTemp = result.getString(2);
+            String dateTemp = result.getString(3);
+            String timeTemp = result.getString(4);
+            int stateTemp = result.getInt(5);
+            // String museTemp = data.getString(6);
+            Capture captureTemp = new Capture(idTemp,stateTemp, titleTemp, descriptionTemp, dateTemp, timeTemp);
+            captureList.add(captureTemp);
+            System.out.println("captureTemp : " + captureTemp);
+        }
+
+        return captureList;
     }
 
-    public Cursor getDataByID(int id){
+    public Capture getDataByID(int id){
         SQLiteDatabase db = this.getWritableDatabase();
+        Capture capture = null;
         Cursor result = db.rawQuery("select * from "+TABLE_NAME+" WHERE "+COL_1+"="+id, null);
-        return result;
+
+        while (result.moveToNext()) {
+            int idTemp = result.getInt(0);
+            String titleTemp = result.getString(1);
+            String descriptionTemp = result.getString(2);
+            String dateTemp = result.getString(3);
+            String timeTemp = result.getString(4);
+            int stateTemp = result.getInt(5);
+            // String museTemp = data.getString(6);
+            capture = new Capture(idTemp,stateTemp, titleTemp, descriptionTemp, dateTemp, timeTemp);
+            System.out.println("capture : " + capture);
+        }
+        return capture;
     }
 
-    public int deleteCapture(int id) {
+    public boolean deleteCapture(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME,
+        int result = db.delete(TABLE_NAME,
                 COL_1 + " = ? ",
                 new String[] { Integer.toString(id) });
+
+        if (result == -1)
+            return false;
+        else
+            return true;
     }
 
     public boolean updateCapture(int id, String nom, String description) {

@@ -16,14 +16,12 @@ import java.util.ArrayList;
 public class ConnectDevicePresenter {
 
     private ConnectDeviceView view;
-
     private MuseRepository repository = MuseApplication.getInstance().getRepository();
 
 
     public ConnectDevicePresenter(ConnectDeviceView view){
         this.view = view;
     }
-
 
     public void setContextMuseManager(Context view){
         this.repository.setContextMuseManager(view);
@@ -44,7 +42,6 @@ public class ConnectDevicePresenter {
     public ArrayList<Muse> getDeviceAvaibles(){
         return this.repository.getDeviceAvaibles();
     }
-
 
     public void connectDevice(ConnectionListener connectionListener) {
         this.repository.connectDevice(connectionListener);
