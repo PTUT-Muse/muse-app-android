@@ -1,6 +1,7 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -151,7 +152,16 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
                         }
                     };
 
+            AlertDialog introDialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.permission_dialog_title)
+                    .setMessage(R.string.permission_dialog_description)
+                    .setPositiveButton(R.string.permission_dialog_understand, buttonListener)
+                    .create();
+            introDialog.show();
+
         }
+
+
     }
 
     public void museListChanged() {
