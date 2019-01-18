@@ -51,7 +51,6 @@ public class ConnectDevicePresenter {
         final ConnectionState current = p.getCurrentConnectionState();
         if(current == ConnectionState.DISCONNECTED){
             repository.resetMuse();
-           // view.showMuseDisconnect();
         }
     }
 

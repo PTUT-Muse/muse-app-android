@@ -2,7 +2,6 @@ package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,12 +16,7 @@ import com.example.lpiem.muse_app_android.presentation.ui.view.CaptureListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -75,7 +69,7 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
             @Override
             public void onClick(View view) {
 
-                if(presenter.museIsInstantiate() == false) {
+                if(!presenter.museIsInstantiate()) {
                     Intent intent = new Intent(CaptureListActivity.this, ConnectDeviceActivity.class);
                     startActivity(intent);
                 } else {
@@ -100,8 +94,7 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
 
     @Override
     public void updateList(List<Capture> listCapture) {
-        List<Capture> listCaptureTemp = new ArrayList<>();
-        listCaptureTemp.addAll(listCapture);
+        List<Capture> listCaptureTemp = new ArrayList<>(listCapture);
         captureList.clear();
         captureList = listCaptureTemp;
         captureListAdapter.updateList(captureList);
@@ -123,11 +116,10 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
                 presenter.filterDate(listCap,isIncreased);
                 isIncreased = !isIncreased;
                 if(isIncreased){
-                    dateFilter.setText("DECROISSANT");
+                    dateFilter.setText(getString(R.string.capture_list_filter_decroissant));
 
                 } else {
-                    dateFilter.setText("CROISSANT");
-
+                    dateFilter.setText(getString(R.string.capture_list_filter_croissant));
                 }
                 break;
         }

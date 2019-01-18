@@ -20,10 +20,8 @@ public class NewCapturePresenter {
     private NewCaptureView view;
 
     private MuseRepository repository = MuseApplication.getInstance().getRepository();
-
     private boolean eegStale;
     private final double[] eegBuffer = new double[6];
-
     private final Handler handler = new Handler();
 
     private Boolean captureIsStart = false;
