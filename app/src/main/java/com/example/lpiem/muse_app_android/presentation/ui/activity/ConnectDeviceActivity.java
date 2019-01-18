@@ -1,6 +1,7 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -111,8 +112,8 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
         switch (item.getItemId()) {
             case android.R.id.home:
                 presenter.stopListeningDevice();
-                finish();
-                overridePendingTransition(0, 0);
+                Intent intent = new Intent(ConnectDeviceActivity.this, CaptureListActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -151,7 +152,16 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
                         }
                     };
 
+            AlertDialog introDialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.permission_dialog_title)
+                    .setMessage(R.string.permission_dialog_description)
+                    .setPositiveButton(R.string.permission_dialog_understand, buttonListener)
+                    .create();
+            introDialog.show();
+
         }
+
+
     }
 
     public void museListChanged() {
@@ -161,7 +171,13 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        presenter.stopListeningDevice();
+        Intent intent = new Intent(ConnectDeviceActivity.this, CaptureListActivity.class);
+        startActivity(intent);
+    }
 }
 
 

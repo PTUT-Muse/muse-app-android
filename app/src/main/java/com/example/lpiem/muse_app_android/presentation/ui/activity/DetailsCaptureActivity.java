@@ -1,6 +1,8 @@
 package com.example.lpiem.muse_app_android.presentation.ui.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -48,6 +50,8 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class DetailsCaptureActivity extends AppCompatActivity implements View.OnClickListener, DetailsCaptureView, OnChartValueSelectedListener {
     private DetailsCapturePresenter presenter = new DetailsCapturePresenter(this);
@@ -386,11 +390,16 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
                 overridePendingTransition(0, 0);
                 return true;
             case R.id.menu_export:
+
+                ensurePermissions();
+
                 try {
                     presenter.exportCSV(capture);
+                    Toast.makeText(DetailsCaptureActivity.this, "Capture exporté", Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
                 return true;
             case R.id.menu_delete:
                 confirmDeleteDialog();
@@ -514,5 +523,35 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
 
         mv.setChartView(chart);
         chart.setMarker(mv);
+    }
+
+    private void ensurePermissions() {
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
+
+            DialogInterface.OnClickListener buttonListener =
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which){
+                            dialog.dismiss();
+                            ActivityCompat.requestPermissions(DetailsCaptureActivity.this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    0);
+                        }
+                    };
+
+            android.app.AlertDialog introDialog = new android.app.AlertDialog.Builder(this)
+                    .setTitle(R.string.permission_dialog_title)
+                    .setMessage(R.string.permission_dialog_description)
+                    .setPositiveButton(R.string.permission_dialog_understand, buttonListener)
+                    .create();
+
+            introDialog.getButton(introDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+            introDialog.show();
+
+        }
+
+
     }
 }

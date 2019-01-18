@@ -23,4 +23,7 @@
     <string name="capture_list_date_filter">DATE :</string>
     <string name="capture_list_filter_decroissant">DECROISSANT</string>
     <string name="capture_list_filter_croissant">CROISSANT</string>
+    <string name="permission_dialog_title">Muse Needs Your Permission</string>
+    <string name="permission_dialog_description">Muse needs a few permissions to work properly. On the next screens, tap "Allow" to proceed. If you deny, Muse will not work properly until you go into your Android settings and allow.</string>
+    <string name="permission_dialog_understand">I Understand</string>
 </resources>
