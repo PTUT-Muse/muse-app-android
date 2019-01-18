@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,8 +32,6 @@ import androidx.core.content.ContextCompat;
 public class ConnectDeviceActivity extends AppCompatActivity implements View.OnClickListener, ConnectDeviceView {
 
     private ConnectDevicePresenter presenter = new ConnectDevicePresenter(this);
-
-    private Muse muse;
 
     private Button next;
     private Button refresh;
@@ -87,6 +84,29 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
         return true;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.goToCreateDetails:
+                if (isSelected) {
+                    presenter.stopListeningDevice();
+                    presenter.connectDevice(connectionListener);
+
+                    Intent intent = new Intent(ConnectDeviceActivity.this, NewCaptureDetailsActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, R.string.connect_device_selection, Toast.LENGTH_LONG).show();
+                }
+
+                break;
+            case R.id.refresh:
+                spinnerAdapter.clear();
+                presenter.refreshListeningDevice();
+
+                break;
+        }
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -114,38 +134,11 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
         }
     };
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.goToCreateDetails:
-                if (isSelected) {
-                    Log.d("mlk", "start");
-                    presenter.stopListeningDevice();
-                    presenter.connectDevice(connectionListener);
-
-                    Intent intent = new Intent(ConnectDeviceActivity.this, NewCaptureDetailsActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(this, R.string.connect_device_selection, Toast.LENGTH_LONG).show();
-                }
-
-                break;
-            case R.id.refresh:
-                Log.d("mlk", "refresh");
-                spinnerAdapter.clear();
-                presenter.refreshListeningDevice();
-
-                break;
-        }
-    }
-
     private void ensurePermissions() {
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
-            // We don't have the ACCESS_COARSE_LOCATION permission so create the dialogs asking
-            // the user to grant us the permission.
 
             DialogInterface.OnClickListener buttonListener =
                     new DialogInterface.OnClickListener() {
@@ -161,8 +154,6 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
     }
 
     public void museListChanged() {
-
-        Log.d("mlk", "refresh");
         final List<Muse> list = presenter.getDeviceAvaibles();
         for (Muse m : list) {
             spinnerAdapter.add(m.getName() + " - " + m.getMacAddress());

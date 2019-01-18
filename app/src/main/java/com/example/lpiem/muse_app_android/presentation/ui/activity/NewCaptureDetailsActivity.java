@@ -26,16 +26,16 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
 
     private NewCaptureDetailsPresenter presenter = new NewCaptureDetailsPresenter(this);
 
-    ImageView imgStateHappy;
-    ImageView imgStateAngry;
-    ImageView imgStateSurprise;
-    ImageView imgStateMove;
-    ImageView imgStateNeutral;
-    ImageView imgStateSad;
-    Button btnNext;
-    Button btnCapture;
-    EditText editName;
-    EditText editDescription;
+    private ImageView imgStateHappy;
+    private ImageView imgStateAngry;
+    private ImageView imgStateSurprise;
+    private ImageView imgStateMove;
+    private ImageView imgStateNeutral;
+    private ImageView imgStateSad;
+    private Button btnNext;
+    private Button btnCapture;
+    private EditText editName;
+    private EditText editDescription;
 
     private ImageView currentStateSelected = null;
     private int stateSelectedId;
@@ -72,15 +72,6 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
 
         presenter.setConnectionListener(new ConnectionListener(null,null, weakPresenter, null));
 
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -135,14 +126,6 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
         }
     }
 
-    public void setState(ImageView stateSelected) {
-        if(currentStateSelected != null) {
-            currentStateSelected.setAlpha(0.5f);
-        }
-        stateSelected.setAlpha(1f);
-        currentStateSelected = stateSelected;
-    }
-
     @Override
     public void showMuseDisconnect() {
         presenter.resetMuse();
@@ -169,10 +152,23 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
     }
     
     public boolean isInputNull(){
-        if (TextUtils.isEmpty(editName.getText().toString()) || TextUtils.isEmpty(editDescription.getText().toString()) || currentStateSelected == null) {
-            return true;
-        } else {
-            return false;
+        return TextUtils.isEmpty(editName.getText().toString()) || TextUtils.isEmpty(editDescription.getText().toString()) || currentStateSelected == null;
+    }
+
+    public void setState(ImageView stateSelected) {
+        if(currentStateSelected != null) {
+            currentStateSelected.setAlpha(0.5f);
         }
+        stateSelected.setAlpha(1f);
+        currentStateSelected = stateSelected;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

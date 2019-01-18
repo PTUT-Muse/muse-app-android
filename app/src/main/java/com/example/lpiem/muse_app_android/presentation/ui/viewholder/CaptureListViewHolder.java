@@ -10,16 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CaptureListViewHolder extends RecyclerView.ViewHolder {
-    public ImageView captureEtat;
-    public TextView captureTitre;
-    public TextView captureTemps;
+    public ImageView captureState;
+    public TextView captureTitle;
+    public TextView captureTime;
     public TextView captureDate;
 
     public CaptureListViewHolder(@NonNull View itemView) {
         super(itemView);
-        captureEtat = itemView.findViewById(R.id.imgState);
-        captureTitre = itemView.findViewById(R.id.txtCapture);
-        captureTemps = itemView.findViewById(R.id.txtTemps);
+        captureState = itemView.findViewById(R.id.imgState);
+        captureTitle = itemView.findViewById(R.id.txtCapture);
+        captureTime = itemView.findViewById(R.id.txtTemps);
         captureDate = itemView.findViewById(R.id.txtDate);
 
     }

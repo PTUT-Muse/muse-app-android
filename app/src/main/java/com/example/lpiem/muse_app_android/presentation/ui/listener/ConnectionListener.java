@@ -11,10 +11,10 @@ import com.example.lpiem.muse_app_android.presentation.presenter.NewCapturePrese
 import java.lang.ref.WeakReference;
 
 public class ConnectionListener extends MuseConnectionListener {
-    final WeakReference<NewCapturePresenter> weakNewCapturePresenter;
-    final WeakReference<ConnectDevicePresenter> weakConnectDevicePresenter;
-    final WeakReference<NewCaptureDetailsPresenter> weakNewCaptureDetailsPresenter;
-    final WeakReference<CaptureListPresenter> weakCaptureListPresenter;
+    private final WeakReference<NewCapturePresenter> weakNewCapturePresenter;
+    private final WeakReference<ConnectDevicePresenter> weakConnectDevicePresenter;
+    private final WeakReference<NewCaptureDetailsPresenter> weakNewCaptureDetailsPresenter;
+    private final WeakReference<CaptureListPresenter> weakCaptureListPresenter;
 
 
     public ConnectionListener(final WeakReference<NewCapturePresenter> activityNewCapturePresenter,final WeakReference<ConnectDevicePresenter> connectDevicePresenter, final WeakReference<NewCaptureDetailsPresenter> weakNewCaptureDetailsPresenter, final WeakReference<CaptureListPresenter> weakCaptureListPresenter) {

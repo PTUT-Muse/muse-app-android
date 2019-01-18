@@ -21,4 +21,6 @@
     <string name="db_name">Captures.db</string>
     <string name="champs_obligatoires">Champs obligatoires *</string>
     <string name="capture_list_date_filter">DATE :</string>
+    <string name="capture_list_filter_decroissant">DECROISSANT</string>
+    <string name="capture_list_filter_croissant">CROISSANT</string>
 </resources>

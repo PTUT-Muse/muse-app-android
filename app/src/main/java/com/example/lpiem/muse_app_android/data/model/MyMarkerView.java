@@ -23,8 +23,6 @@ public class MyMarkerView extends MarkerView {
         tvContent = findViewById(R.id.tvContent);
     }
 
-    // runs every time the MarkerView is redrawn, can be used to update the
-    // content (user-interface)
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 

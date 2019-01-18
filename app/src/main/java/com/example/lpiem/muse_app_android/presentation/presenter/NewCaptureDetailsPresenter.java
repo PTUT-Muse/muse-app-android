@@ -12,7 +12,6 @@ import com.example.lpiem.muse_app_android.presentation.ui.view.NewCaptureDetails
 
 public class NewCaptureDetailsPresenter  {
 
-
     private NewCaptureDetailsView view;
 
     private MuseRepository repository = MuseApplication.getInstance().getRepository();

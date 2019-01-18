@@ -1,13 +1,8 @@
 package com.example.lpiem.muse_app_android.data.repository;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.choosemuse.libmuse.ConnectionState;
 import com.choosemuse.libmuse.Muse;
-import com.choosemuse.libmuse.MuseConnectionPacket;
 import com.choosemuse.libmuse.MuseDataPacketType;
 import com.choosemuse.libmuse.MuseManagerAndroid;
 import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
@@ -37,17 +32,12 @@ public class MuseRepository {
         this.db = new SQLiteDataBase(context);
     }
 
-
     public void setContextMuseManager(Context view){
         this.museManager.setContext(view);
     }
 
     public void setMuseListener(ListenerMuse museListener){
         this.museManager.setMuseListener(museListener);
-    }
-
-    public MuseManagerAndroid getMuseManager() {
-        return museManager;
     }
 
     public void refreshListeningDevice(){
@@ -62,7 +52,6 @@ public class MuseRepository {
     public ArrayList<Muse> getDeviceAvaibles(){
         return this.museManager.getMuses();
     }
-
 
     public void connectDevice(ConnectionListener connectionListener){
         List<Muse> availableMuses = getDeviceAvaibles();
@@ -90,8 +79,6 @@ public class MuseRepository {
     public void resetMuse(){
         this.muse = null;
     }
-
-
 
     public boolean insertData(String nom, String description, String date, String temps, int etat, Sensors muse){
        return db.insertData(nom,description,date,temps,etat,muse);

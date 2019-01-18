@@ -7,7 +7,7 @@ import java.lang.ref.WeakReference;
 
 public class ListenerMuse extends MuseListener {
 
-    final WeakReference<ConnectDeviceActivity> activityRef;
+    private final WeakReference<ConnectDeviceActivity> activityRef;
 
     public ListenerMuse(final WeakReference<ConnectDeviceActivity> activityRef) {
         this.activityRef = activityRef;

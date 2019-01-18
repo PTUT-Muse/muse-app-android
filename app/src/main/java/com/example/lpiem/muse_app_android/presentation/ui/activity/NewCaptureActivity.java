@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.example.lpiem.muse_app_android.R;
 import com.example.lpiem.muse_app_android.data.model.MyMarkerView;
 import com.example.lpiem.muse_app_android.data.model.Sensors;
-import com.example.lpiem.muse_app_android.data.manager.SQLiteDataBase;
 import com.example.lpiem.muse_app_android.presentation.presenter.NewCapturePresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.ConnectionListener;
 import com.example.lpiem.muse_app_android.presentation.ui.listener.DataListener;
@@ -38,45 +37,40 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class NewCaptureActivity extends AppCompatActivity implements View.OnClickListener, NewCaptureView, OnChartValueSelectedListener {
 
     private NewCapturePresenter presenter = new NewCapturePresenter(this);
 
-    SQLiteDataBase db;
-    Button btnDetails;
-    ImageButton btnStart;
-    ImageButton btnStop;
-    ImageButton btnReset;
-    ImageButton btn3d;
-    FloatingActionButton addCapture;
+    private Button btnDetails;
+    private ImageButton btnStart;
+    private ImageButton btnStop;
+    private ImageButton btnReset;
+    private ImageButton btn3d;
+    private FloatingActionButton addCapture;
 
     private DataListener dataListener;
     private final Handler handler = new Handler();
-    private LineChart chart;
 
+    private LineChart chart;
     private PointerSpeedometer pointerSpeedometer1;
     private PointerSpeedometer pointerSpeedometer2;
     private PointerSpeedometer pointerSpeedometer3;
     private PointerSpeedometer pointerSpeedometer4;
+    private Sensors sensors;
+
     private Chronometer timer;
     private long pauseOffset;
-    Sensors sensors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_capture);
-        db = new SQLiteDataBase(this);
-
         this.setTitle(R.string.new_capture_title_bar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -97,6 +91,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         pointerSpeedometer2 = findViewById(R.id.monitor2);
         pointerSpeedometer3 = findViewById(R.id.monitor3);
         pointerSpeedometer4 = findViewById(R.id.monitor4);
+
         sensors = new Sensors();
 
         realtimeChart();
@@ -177,13 +172,11 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
                 break;
 
             case R.id.fab_addCapture:
-
                 if (!presenter.getCaptureIsStart()) {
                     Bundle extras = getIntent().getExtras();
                     String currentDate = DateFormat.getDateInstance().format(new Date());
-                    long timeChrono = SystemClock.elapsedRealtime() - timer.getBase();
                     boolean isInserted = presenter.insertData(extras.getString("nom"), extras.getString("description"), currentDate, timer.getText().toString(), extras.getInt("idEtat"),sensors);
-                    if (isInserted == true) {
+                    if (isInserted) {
                         Toast.makeText(NewCaptureActivity.this, "Capture ajoutée", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(NewCaptureActivity.this, CaptureListActivity.class);
                         startActivity(intent);
@@ -199,11 +192,6 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void updateEeg(double[] eegBuffer) {
-        Log.d("mlk", "test eegBuffer 1 : "+String.format("%6.2f", eegBuffer[0]));
-        Log.d("mlk", "test eegBuffer 2 : "+String.format("%6.2f", eegBuffer[1]));
-        Log.d("mlk", "test eegBuffer 3 : "+String.format("%6.2f", eegBuffer[2]));
-        Log.d("mlk", "test eegBuffer 4 : "+String.format("%6.2f", eegBuffer[3]));
-
         sensors.pushSensor1(eegBuffer[0]);
         sensors.pushSensor2(eegBuffer[1]);
         sensors.pushSensor3(eegBuffer[2]);
@@ -217,7 +205,6 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
             ILineDataSet set1 = data.getDataSetByIndex(1);
             ILineDataSet set2= data.getDataSetByIndex(2);
             ILineDataSet set3 = data.getDataSetByIndex(3);
-            // set.addEntry(...); // can be called as well
 
             if (set == null && set1 == null && set2 == null && set3 == null) {
                 set = createSet(ColorTemplate.getHoloBlue(), "Capteur 1");
@@ -236,19 +223,11 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
             data.addEntry(new Entry(set3.getEntryCount(), (float) eegBuffer[3]), 3);
             data.notifyDataChanged();
 
-            // let the chart know it's data has changed
             chart.notifyDataSetChanged();
 
-            // limit the number of visible entries
             chart.setVisibleXRangeMaximum(120);
-            // chart.setVisibleYRange(30, AxisDependency.LEFT);
 
-            // move to the latest entry
             chart.moveViewToX(data.getEntryCount());
-
-            // this automatically refreshes the chart (calls invalidate())
-            // chart.moveViewTo(data.getXValCount()-7, 55f,
-            // AxisDependency.LEFT);
         }
 
         pointerSpeedometer1.speedTo((float) eegBuffer[0], 0);
@@ -259,7 +238,6 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void showMuseDisconnect() {
-        Log.d("mlkk", "disconnected");
         presenter.stopHandler();
         presenter.resetMuse();
 
@@ -279,7 +257,6 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         alertDialog.show();
         alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorBlue));
         alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
-
     }
 
     @Override
@@ -307,33 +284,25 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         chart = findViewById(R.id.graph_capture);
         chart.setOnChartValueSelectedListener(this);
 
-        // enable description text
         chart.getDescription().setEnabled(true);
 
-        // enable touch gestures
         chart.setTouchEnabled(true);
 
-        // enable scaling and dragging
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
         chart.setDrawGridBackground(false);
 
-        // if disabled, scaling can be done on x- and y-axis separately
         chart.setPinchZoom(true);
 
-        // set an alternative background color
         chart.setBackgroundColor(Color.TRANSPARENT);
 
         LineData data = new LineData();
         data.setValueTextColor(Color.WHITE);
 
-        // add empty data
         chart.setData(data);
 
-        // get the legend (only possible after setting data)
         Legend l = chart.getLegend();
 
-        // modify the legend ...
         l.setForm(Legend.LegendForm.LINE);
         l.setTextColor(Color.WHITE);
         l.setTextSize(35f);
@@ -356,16 +325,13 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false);
 
-        // create marker to display box when values are selected
         MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
 
-        // Set the marker to the chart
         mv.setChartView(chart);
         chart.setMarker(mv);
     }
 
     private LineDataSet createSet(int color, String label) {
-
         LineDataSet set = new LineDataSet(null, label);
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         set.setColor(color);
