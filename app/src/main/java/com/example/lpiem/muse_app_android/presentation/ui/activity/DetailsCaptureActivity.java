@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,19 +19,32 @@ import com.example.lpiem.muse_app_android.data.model.MyMarkerView;
 import com.example.lpiem.muse_app_android.data.model.Sensors;
 import com.example.lpiem.muse_app_android.presentation.presenter.DetailsCapturePresenter;
 import com.example.lpiem.muse_app_android.presentation.ui.view.DetailsCaptureView;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.MPPointF;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +53,7 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
     private DetailsCapturePresenter presenter = new DetailsCapturePresenter(this);
 
     private Button btnModify;
+    private ImageButton btn3D;
     private ImageView imgState;
     private TextView editName;
     private TextView editDescription;
@@ -47,6 +62,12 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
     private Capture capture;
 
     private LineChart chart;
+
+    private BarChart barChart;
+
+    private PieChart pieChart;
+
+    private int idChart;
 
 
     @Override
@@ -63,8 +84,16 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
         editDescription = findViewById(R.id.txtEditDescription);
         editTime = findViewById(R.id.txtChrono);
         imgState = findViewById(R.id.imgState);
+        chart = findViewById(R.id.graph);
+        barChart = findViewById(R.id.bar_chart);
+        pieChart = findViewById(R.id.pie_chart);
+        btn3D = findViewById(R.id.btn3D);
+        btn3D.setOnClickListener(this);
 
+        idChart = 0;
         realtimeChart();
+        pieChart();
+        barChart();
 
         int idCapture = getIntent().getIntExtra("id", 0);
         presenter.getDataByID(idCapture);
@@ -95,11 +124,102 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
                     }
                 }
                 break;
+            case R.id.btn3D:
+                idChart++;
+                if (idChart == 0) {
+                    barChart.setVisibility(View.INVISIBLE);
+                    pieChart.setVisibility(View.INVISIBLE);
+                    chart.setVisibility(View.VISIBLE);
+                }
+                else if (idChart == 1) {
+                    barChart.setVisibility(View.VISIBLE);
+                    pieChart.setVisibility(View.INVISIBLE);
+                    chart.setVisibility(View.INVISIBLE);
+                }
+                else if (idChart == 2) {
+                    barChart.setVisibility(View.INVISIBLE);
+                    pieChart.setVisibility(View.VISIBLE);
+                    chart.setVisibility(View.INVISIBLE);
+                    idChart = -1;
+                }
 
             default:
                 break;
         }
 
+    }
+
+
+    private void pieChart() {
+
+        pieChart.setUsePercentValues(true);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setExtraOffsets(5, 10, 5, 5);
+
+        pieChart.setDragDecelerationFrictionCoef(0.95f);
+
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleColor(Color.WHITE);
+
+        pieChart.setTransparentCircleColor(Color.WHITE);
+        pieChart.setTransparentCircleAlpha(110);
+
+        pieChart.setHoleRadius(58f);
+        pieChart.setTransparentCircleRadius(61f);
+
+        pieChart.setDrawCenterText(true);
+
+        pieChart.setRotationAngle(0);
+        // enable rotation of the chart by touch
+        pieChart.setRotationEnabled(true);
+        pieChart.setHighlightPerTapEnabled(true);
+
+        // chart.setUnit(" €");
+        // chart.setDrawUnitsInChart(true);
+
+        // add a selection listener
+        pieChart.setOnChartValueSelectedListener(this);
+
+        pieChart.animateY(1400, Easing.EaseInOutQuad);
+        // chart.spin(2000, 0, 360);
+
+        Legend l = pieChart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(false);
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(0f);
+        l.setYOffset(0f);
+
+        // entry label styling
+        pieChart.setEntryLabelColor(Color.WHITE);
+        pieChart.setEntryLabelTextSize(12f);
+    }
+
+    private void barChart() {
+        barChart.getDescription().setEnabled(false);
+
+        // if more than 60 entries are displayed in the chart, no values will be
+        // drawn
+        barChart.setMaxVisibleValueCount(60);
+
+        // scaling can now only be done on x- and y-axis separately
+        barChart.setPinchZoom(false);
+
+        barChart.setDrawBarShadow(false);
+        barChart.setDrawGridBackground(false);
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+
+        barChart.getAxisLeft().setDrawGridLines(false);
+
+        // add a nice and smooth animation
+        barChart.animateY(1500);
+
+        barChart.getLegend().setEnabled(false);
     }
 
     @Override
@@ -148,6 +268,97 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
 
             chart.moveViewToX(data.getEntryCount());
 
+            float val1 = 0, val2 = 0, val3 = 0, val4 = 0;
+
+            for (int i = 0; i<sensors.getSensor1().size(); i++) {
+                val1 += sensors.getSensor1().get(i);
+                val2 += sensors.getSensor2().get(i);
+                val3 += sensors.getSensor3().get(i);
+                val4 += sensors.getSensor4().get(i);
+            }
+            val1 /= sensors.getSensor1().size();
+            val2 /= sensors.getSensor1().size();
+            val3 /= sensors.getSensor1().size();
+            val4 /= sensors.getSensor1().size();
+
+            ArrayList<BarEntry> barEntries = new ArrayList<>();
+
+            barEntries.add(new BarEntry(0, val1));
+            barEntries.add(new BarEntry(1, val2));
+            barEntries.add(new BarEntry(2, val3));
+            barEntries.add(new BarEntry(3, val4));
+
+            BarDataSet barSet;
+
+            if (barChart.getData() != null &&
+                    barChart.getData().getDataSetCount() > 0) {
+                barSet = (BarDataSet) barChart.getData().getDataSetByIndex(0);
+                barSet.setValues(barEntries);
+                barChart.getData().notifyDataChanged();
+                barChart.notifyDataSetChanged();
+            } else {
+                barSet = new BarDataSet(barEntries, "Données capteurs");
+                barSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+                barSet.setDrawValues(false);
+
+                ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+                dataSets.add(barSet);
+
+                BarData barData = new BarData(dataSets);
+                barChart.setData(barData);
+                barChart.setFitBars(true);
+            }
+
+            barChart.invalidate();
+
+            ArrayList<PieEntry> entries = new ArrayList<>();
+
+            entries.add(new PieEntry(val1));
+            entries.add(new PieEntry(val2));
+            entries.add(new PieEntry(val3));
+            entries.add(new PieEntry(val4));
+
+            PieDataSet dataSet = new PieDataSet(entries, "Données capteurs");
+
+            dataSet.setDrawIcons(false);
+
+            dataSet.setSliceSpace(3f);
+            dataSet.setIconsOffset(new MPPointF(0, 40));
+            dataSet.setSelectionShift(5f);
+
+            // add a lot of colors
+
+            ArrayList<Integer> colors = new ArrayList<>();
+
+            for (int c : ColorTemplate.VORDIPLOM_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.JOYFUL_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.COLORFUL_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.LIBERTY_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.PASTEL_COLORS)
+                colors.add(c);
+
+            colors.add(ColorTemplate.getHoloBlue());
+
+            dataSet.setColors(colors);
+            //dataSet.setSelectionShift(0f);
+
+            PieData pieData = new PieData(dataSet);
+            pieData.setValueTextSize(11f);
+            pieData.setValueTextColor(Color.WHITE);
+            pieChart.setData(pieData);
+
+            // undo all highlights
+            pieChart.highlightValues(null);
+
+            pieChart.invalidate();
         }
     }
 
@@ -255,7 +466,7 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
     }
 
     private void realtimeChart() {
-        chart = findViewById(R.id.graph);
+
         chart.setOnChartValueSelectedListener(this);
 
         chart.getDescription().setEnabled(true);
