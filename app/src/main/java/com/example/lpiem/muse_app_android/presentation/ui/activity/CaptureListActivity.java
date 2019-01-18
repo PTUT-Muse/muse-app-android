@@ -124,4 +124,10 @@ public class CaptureListActivity extends AppCompatActivity implements CaptureLis
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
 }

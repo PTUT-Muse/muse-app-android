@@ -112,8 +112,8 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
         switch (item.getItemId()) {
             case android.R.id.home:
                 presenter.stopListeningDevice();
-                finish();
-                overridePendingTransition(0, 0);
+                Intent intent = new Intent(ConnectDeviceActivity.this, CaptureListActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -171,7 +171,13 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        presenter.stopListeningDevice();
+        Intent intent = new Intent(ConnectDeviceActivity.this, CaptureListActivity.class);
+        startActivity(intent);
+    }
 }
 
 
