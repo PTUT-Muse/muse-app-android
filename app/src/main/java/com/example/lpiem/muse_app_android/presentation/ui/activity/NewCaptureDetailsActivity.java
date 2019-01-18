@@ -166,6 +166,9 @@ public class NewCaptureDetailsActivity extends AppCompatActivity implements View
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                presenter.disconnectMuse();
+                presenter.resetMuse();
+                presenter.stopListeningDevice();
                 finish();
                 return true;
         }

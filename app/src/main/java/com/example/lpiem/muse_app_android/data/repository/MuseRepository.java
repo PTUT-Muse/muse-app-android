@@ -80,6 +80,10 @@ public class MuseRepository {
         this.muse = null;
     }
 
+    public void disconnectMuse(){
+        this.muse.disconnect();
+    }
+
     public boolean insertData(String nom, String description, String date, String temps, int etat, Sensors muse){
        return db.insertData(nom,description,date,temps,etat,muse);
     }

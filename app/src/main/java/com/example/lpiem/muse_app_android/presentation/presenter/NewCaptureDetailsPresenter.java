@@ -41,4 +41,11 @@ public class NewCaptureDetailsPresenter  {
         repository.setConntionListener(connectionListener);
     }
 
+    public void stopListeningDevice(){
+        this.repository.stopListeningDevice();
+    }
+
+    public void disconnectMuse(){
+        repository.disconnectMuse();
+    }
 }
