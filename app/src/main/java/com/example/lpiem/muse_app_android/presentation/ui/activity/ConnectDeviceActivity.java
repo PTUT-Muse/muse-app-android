@@ -152,11 +152,19 @@ public class ConnectDeviceActivity extends AppCompatActivity implements View.OnC
                         }
                     };
 
-            AlertDialog introDialog = new AlertDialog.Builder(this)
+            final AlertDialog introDialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.permission_dialog_title)
                     .setMessage(R.string.permission_dialog_description)
                     .setPositiveButton(R.string.permission_dialog_understand, buttonListener)
                     .create();
+
+            introDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    introDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+                }
+            });
+
             introDialog.show();
 
         }
