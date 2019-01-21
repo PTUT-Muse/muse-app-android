@@ -37,7 +37,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -174,18 +173,11 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
         pieChart.setDrawCenterText(true);
 
         pieChart.setRotationAngle(0);
-        // enable rotation of the chart by touch
         pieChart.setRotationEnabled(true);
         pieChart.setHighlightPerTapEnabled(true);
-
-        // chart.setUnit(" €");
-        // chart.setDrawUnitsInChart(true);
-
-        // add a selection listener
         pieChart.setOnChartValueSelectedListener(this);
 
         pieChart.animateY(1400, Easing.EaseInOutQuad);
-        // chart.spin(2000, 0, 360);
 
         Legend l = pieChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
@@ -196,7 +188,6 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
         l.setYEntrySpace(0f);
         l.setYOffset(0f);
 
-        // entry label styling
         pieChart.setEntryLabelColor(Color.WHITE);
         pieChart.setEntryLabelTextSize(12f);
     }
@@ -204,11 +195,8 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
     private void barChart() {
         barChart.getDescription().setEnabled(false);
 
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
         barChart.setMaxVisibleValueCount(60);
 
-        // scaling can now only be done on x- and y-axis separately
         barChart.setPinchZoom(false);
 
         barChart.setDrawBarShadow(false);
@@ -220,7 +208,6 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
 
         barChart.getAxisLeft().setDrawGridLines(false);
 
-        // add a nice and smooth animation
         barChart.animateY(1500);
 
         barChart.getLegend().setEnabled(false);
@@ -541,13 +528,18 @@ public class DetailsCaptureActivity extends AppCompatActivity implements View.On
                         }
                     };
 
-            android.app.AlertDialog introDialog = new android.app.AlertDialog.Builder(this)
+            final android.app.AlertDialog introDialog = new android.app.AlertDialog.Builder(this)
                     .setTitle(R.string.permission_dialog_title)
                     .setMessage(R.string.permission_dialog_description)
                     .setPositiveButton(R.string.permission_dialog_understand, buttonListener)
                     .create();
 
-            introDialog.getButton(introDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+            introDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    introDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorBlue));
+                }
+            });
             introDialog.show();
 
         }
