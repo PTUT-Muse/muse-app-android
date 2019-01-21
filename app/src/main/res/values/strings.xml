@@ -23,7 +23,7 @@
     <string name="capture_list_date_filter">DATE :</string>
     <string name="capture_list_filter_decroissant">DECROISSANT</string>
     <string name="capture_list_filter_croissant">CROISSANT</string>
-    <string name="permission_dialog_title">Muse Needs Your Permission</string>
-    <string name="permission_dialog_description">Muse needs a few permissions to work properly. On the next screens, tap "Allow" to proceed. If you deny, Muse will not work properly until you go into your Android settings and allow.</string>
-    <string name="permission_dialog_understand">I Understand</string>
+    <string name="permission_dialog_title">Muse a besoin de votre permission</string>
+    <string name="permission_dialog_description">Muse a besoin de plusieurs permissions pour fonctionner correctement. Cliquez sur "Autorisez" sur la prochaine pop-up pour continuer. Si vous refusez, Le casque ne fonctionnera pas correctement tant que vous ne le modifierez pas dans les paramètres.</string>
+    <string name="permission_dialog_understand">J\'ai compris</string>
 </resources>
