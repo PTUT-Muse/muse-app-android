@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">muse-app-android</string>
+    <string name="app_name">Muse Analyzer</string>
     <string name="logo_muse">MUSE</string>
     <string name="logo_analyzer">ANALYZER</string>
     <string name="tri_croissant">Croissant</string>

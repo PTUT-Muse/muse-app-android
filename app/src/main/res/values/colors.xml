@@ -8,7 +8,7 @@
     <color name="colorCard">#6F80CA</color>
     <color name="colorValidation">#009675</color>
     <color name="colorShadow">#5A6EE1</color>
-
+    <color name="ic_launcher_background">#3E50B4</color>
     <color name="underlineInput">#6d00ac</color>
     <color name="underlineInputSelect">#08BCFC</color>
     <color name="colorPlaceHolderInput">#64ffffff</color>

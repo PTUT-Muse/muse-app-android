@@ -112,6 +112,7 @@ public class NewCaptureActivity extends AppCompatActivity implements View.OnClic
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                presenter.stopHandler();
                 finish();
                 overridePendingTransition(0, 0);
                 return true;
